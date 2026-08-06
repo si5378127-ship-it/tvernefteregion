@@ -35,6 +35,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    yandex: '7eaee94c2479fcf5',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
