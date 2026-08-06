@@ -2,6 +2,10 @@
   "name": "tver-nefte-region",
   "version": "0.1.0",
   "private": true,
+  "description": "Корпоративный B2B-сайт ТверьНефтеРегион",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

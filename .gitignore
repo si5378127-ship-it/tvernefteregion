@@ -20,7 +20,10 @@
 
 # misc
 .DS_Store
+Thumbs.db
+Desktop.ini
 *.pem
+*.tsbuildinfo
 
 # debug
 npm-debug.log*
@@ -28,14 +31,22 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
+# env files (keep only example)
 .env
 .env*.local
 
-# typescript
-*.tsbuildinfo
+# typescript / next generated
 next-env.d.ts
 
 # dev logs
 /logs
 *.log
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+.idea/
+
+# OS / OneDrive noise
+*Zone.Identifier
