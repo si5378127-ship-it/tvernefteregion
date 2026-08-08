@@ -1,11 +1,14 @@
 import type { SiteConfig, SEOConfig } from '@/types';
 
+const seoTitle = 'Дизельное топливо с доставкой | ТверьНефтеРегион';
+const seoDescription =
+  'Поставка дизельного топлива для предприятий с доставкой по Тверской, Новгородской, Ярославской и Смоленской областям. Расчёт стоимости и заказ топлива.';
+
 export const siteConfig: SiteConfig = {
   name: process.env.NEXT_PUBLIC_SITE_NAME || 'ТверьНефтеРегион',
   legalName: 'ТверьНефтеРегион', // TODO: заполнить юридическое наименование
   tagline: 'Надёжная поставка нефтепродуктов для предприятий',
-  description:
-    'Организуем поставки дизельного и печного топлива по Тверской, Новгородской, Ярославской и Смоленской областям.',
+  description: seoDescription,
   url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
   locale: 'ru_RU',
 };
@@ -14,15 +17,22 @@ export const siteConfig: SiteConfig = {
 export const companyAddress = process.env.NEXT_PUBLIC_COMPANY_ADDRESS?.trim() || '';
 
 export const seoConfig: SEOConfig = {
-  defaultTitle: 'Доставка нефтепродуктов для предприятий',
+  /** Без суффикса бренда: его добавляет titleTemplate */
+  defaultTitle: 'Дизельное топливо с доставкой',
   titleTemplate: '%s | ТверьНефтеРегион',
-  defaultDescription: siteConfig.description,
-  ogImage: '/images/og/default.jpg', // TODO: добавить реальное OG-изображение
+  defaultDescription: seoDescription,
+  /** Полный title для og/twitter (без повторного применения template) */
+  ogTitle: seoTitle,
+  /**
+   * Горизонтальное фото транспорта (1280×960).
+   * Файл /images/og/default.jpg в репозитории отсутствует.
+   */
+  ogImage: '/images/hero/transport.jpg',
   keywords: [
     'нефтепродукты',
     'дизельное топливо',
-    'печное топливо',
     'поставка топлива',
+    'доставка дизельного топлива',
     'Тверская область',
     'Новгородская область',
     'Ярославская область',

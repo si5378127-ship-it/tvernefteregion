@@ -117,6 +117,8 @@ export interface SEOConfig {
   defaultTitle: string;
   titleTemplate: string;
   defaultDescription: string;
+  /** Полный title для Open Graph / Twitter */
+  ogTitle: string;
   ogImage: string;
   keywords: string[];
 }
