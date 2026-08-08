@@ -32,9 +32,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: seoConfig.ogImage,
-        width: 1280,
-        height: 960,
-        alt: 'Специализированный транспорт для поставки дизельного топлива — ТверьНефтеРегион',
+        width: 1024,
+        height: 537,
+        alt: 'Дизельное топливо с доставкой — ТверьНефтеРегион',
       },
     ],
   },

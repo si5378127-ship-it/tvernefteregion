@@ -23,11 +23,8 @@ export const seoConfig: SEOConfig = {
   defaultDescription: seoDescription,
   /** Полный title для og/twitter (без повторного применения template) */
   ogTitle: seoTitle,
-  /**
-   * Горизонтальное фото транспорта (1280×960).
-   * Файл /images/og/default.jpg в репозитории отсутствует.
-   */
-  ogImage: '/images/hero/transport.jpg',
+  /** Специальная OG-карточка для предпросмотра в мессенджерах */
+  ogImage: '/images/og/default.png',
   keywords: [
     'нефтепродукты',
     'дизельное топливо',
