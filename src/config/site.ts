@@ -4,12 +4,29 @@ const seoTitle = 'Дизельное топливо с доставкой | Тв
 const seoDescription =
   'Поставка дизельного топлива для предприятий с доставкой по Тверской, Новгородской, Ярославской и Смоленской областям. Расчёт стоимости и заказ топлива.';
 
+/** Абсолютный URL сайта для metadataBase / Open Graph (без trailing slash). */
+function resolveSiteUrl(): string {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, '');
+  const isLocalhost = !configured || /localhost|127\.0\.0\.1/i.test(configured);
+
+  // На Vercel не отдаём localhost в og:image — мессенджеры его не откроют.
+  if (isLocalhost) {
+    const vercelProd = process.env.VERCEL_PROJECT_PRODUCTION_URL?.replace(/^https?:\/\//, '');
+    if (vercelProd) return `https://${vercelProd}`;
+
+    const vercelUrl = process.env.VERCEL_URL?.replace(/^https?:\/\//, '');
+    if (vercelUrl) return `https://${vercelUrl}`;
+  }
+
+  return configured || 'http://localhost:3000';
+}
+
 export const siteConfig: SiteConfig = {
   name: process.env.NEXT_PUBLIC_SITE_NAME || 'ТверьНефтеРегион',
   legalName: 'ТверьНефтеРегион', // TODO: заполнить юридическое наименование
   tagline: 'Надёжная поставка нефтепродуктов для предприятий',
   description: seoDescription,
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  url: resolveSiteUrl(),
   locale: 'ru_RU',
 };
 
