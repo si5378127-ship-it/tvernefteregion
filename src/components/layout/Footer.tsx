@@ -6,11 +6,6 @@ import { contentProvider } from '@/services';
 import { BrandLogo, Container, ContactIcon, hasContactIcon } from '@/components/ui';
 import { FooterActions } from './FooterActions';
 
-function productFooterLabel(id: string, title: string): string {
-  if (id === 'heating-oil') return 'Печное топливо';
-  return title;
-}
-
 export async function Footer() {
   const products = await contentProvider.getProducts();
   const phone = getHeaderPhone();
@@ -64,7 +59,7 @@ export async function Footer() {
                     href="/#products"
                     className="text-sm text-[#B9C5CF] hover:text-brand-green transition-colors duration-200"
                   >
-                    {productFooterLabel(p.id, p.title)}
+                    {p.title}
                   </Link>
                 </li>
               ))}

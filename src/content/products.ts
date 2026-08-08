@@ -55,22 +55,6 @@ export const products: Product[] = [
     active: true,
   },
   {
-    id: 'heating-oil',
-    slug: 'toplivo-pechnoe-bytovoe',
-    title: 'Топливо печное бытовое',
-    shortDescription:
-      'Топливо для отопления промышленных и бытовых печей, котельных установок.',
-    application:
-      'Котельные, отопительные объекты, производственные печи. Назначение и характеристики уточняются по документам конкретной партии.',
-    priceMode: 'on_request',
-    priceFrom: undefined,
-    priceUnit: undefined,
-    availability: 'on_request',
-    updatedAt: undefined,
-    image: '/images/products/heating-oil.webp',
-    active: true,
-  },
-  {
     id: 'fuel-oil',
     slug: 'mazut-topochnyy',
     title: 'Мазут топочный',

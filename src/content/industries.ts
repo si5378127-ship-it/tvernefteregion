@@ -46,7 +46,7 @@ export const industries: Industry[] = [
   {
     id: 'boiler',
     title: 'Котельные',
-    description: 'Печное топливо для котельных и отопительных объектов.',
+    description: 'Поставки топлива для котельных и отопительных объектов.',
     icon: 'flame',
   },
 ];

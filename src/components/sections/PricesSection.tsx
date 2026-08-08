@@ -13,7 +13,7 @@ export async function PricesSection() {
           title="Стоимость топлива"
           subtitle="Итоговая цена зависит от вида продукта, объёма, маршрута и актуальной оптовой цены"
         />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
             <PriceCard key={product.id} product={product} hover />
           ))}

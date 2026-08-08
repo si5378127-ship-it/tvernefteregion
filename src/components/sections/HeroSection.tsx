@@ -41,8 +41,8 @@ export function HeroSection() {
               variants={fadeInUp}
               className="text-lg md:text-xl text-secondary-text leading-relaxed max-w-xl"
             >
-              Организуем поставки дизельного и печного топлива по Тверской, Новгородской,
-              Ярославской и Смоленской областям.
+              Организуем поставки дизельного топлива по Тверской, Новгородской, Ярославской и
+              Смоленской областям.
             </motion.p>
             <motion.p variants={fadeInUp} className="text-base text-secondary-text/90 italic">
               Когда техника и оборудование должны работать, поставка топлива не может подвести.
