@@ -1,8 +1,9 @@
 'use client';
 
-import { BottomSheet, ContactChannelLink } from '@/components/ui';
+import { BottomSheet, ContactChannelLink, ManagerContactCard } from '@/components/ui';
+import { getManagerContact } from '@/config/contacts';
 import { useContactSheet } from './ContactSheetContext';
-import { useDirectContactPanelChannels } from './ContactChannelsContext';
+import { useDirectContactPanelChannels, useHeaderPhone } from './ContactChannelsContext';
 import { CompactInquiryForm } from '@/components/forms/CompactInquiryForm';
 import { CompactCallbackForm } from '@/components/forms/CompactCallbackForm';
 
@@ -15,6 +16,14 @@ const CALC_HINTS = [
 export function ContactSheet() {
   const { isOpen, closeContactSheet } = useContactSheet();
   const directChannels = useDirectContactPanelChannels();
+  const companyPhone = useHeaderPhone();
+  const manager = getManagerContact();
+
+  // Компания (телефон первым) + остальные каналы без дубля телефона; менеджер — отдельной карточкой.
+  const sheetChannels = [
+    ...(companyPhone ? [companyPhone] : []),
+    ...directChannels.filter((c) => c.id !== companyPhone?.id),
+  ];
 
   return (
     <BottomSheet open={isOpen} onClose={closeContactSheet} title="Свяжитесь с нами" size="lg">
@@ -28,18 +37,21 @@ export function ContactSheet() {
           </p>
         </div>
 
-        {directChannels.length > 0 && (
-          <div className="flex flex-col gap-2">
-            {directChannels.map((channel) => (
-              <ContactChannelLink
-                key={channel.id}
-                channel={channel}
-                variant="card"
-                onClick={closeContactSheet}
-              />
-            ))}
-          </div>
-        )}
+        <div className="flex flex-col gap-2">
+          {sheetChannels.map((channel) => (
+            <ContactChannelLink
+              key={channel.id}
+              channel={channel}
+              variant="card"
+              onClick={closeContactSheet}
+            />
+          ))}
+          <ManagerContactCard
+            manager={manager}
+            variant="sheet"
+            onNavigate={closeContactSheet}
+          />
+        </div>
 
         <div className="border-t border-border pt-5">
           <h3 className="text-base font-semibold text-graphite mb-3">

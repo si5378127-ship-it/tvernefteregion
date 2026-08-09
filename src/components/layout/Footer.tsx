@@ -1,15 +1,22 @@
 ﻿import Link from 'next/link';
 import { siteConfig } from '@/config/site';
 import { mainNavigation, footerNavigation } from '@/config/navigation';
-import { getHeaderPhone, getFooterChannels } from '@/config/contacts';
+import { getHeaderPhone, getFooterChannels, getManagerContact } from '@/config/contacts';
 import { contentProvider } from '@/services';
-import { BrandLogo, Container, ContactIcon, hasContactIcon } from '@/components/ui';
+import {
+  BrandLogo,
+  Container,
+  ContactIcon,
+  hasContactIcon,
+  ManagerContactCard,
+} from '@/components/ui';
 import { FooterActions } from './FooterActions';
 
 export async function Footer() {
   const products = await contentProvider.getProducts();
   const phone = getHeaderPhone();
   const channels = getFooterChannels();
+  const manager = getManagerContact();
   const email = channels.find((c) => c.type === 'email');
   const messengers = channels.filter((c) =>
     ['telegram', 'whatsapp', 'max'].includes(c.type),
@@ -123,6 +130,7 @@ export async function Footer() {
                 </li>
               ))}
             </ul>
+            <ManagerContactCard manager={manager} variant="footer" />
           </div>
         </div>
 

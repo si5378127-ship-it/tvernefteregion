@@ -4,18 +4,17 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { contactDefaults } from '@/config/contact-defaults';
+import { getManagerContact } from '@/config/contacts';
 import { usePrefersReducedMotion } from '@/lib/motion';
 import {
   COOKIE_BANNER_VISIBILITY_EVENT,
   hasCookieConsent,
 } from '@/lib/cookie-consent';
 import { ContactIcon } from '@/components/ui/ContactIcon';
-import { useHeaderPhone, useMessengerChannels } from './ContactChannelsContext';
+import { useHeaderPhone } from './ContactChannelsContext';
 
-const MAX_HREF =
-  contactDefaults.max ||
-  'https://max.ru/u/f9LHodD0cOKPu6N9XPC_2UvTZcWh9rf_tIHEVtG0cHwgZqJCJ7dXjWO9wp8';
-
+const managerContact = getManagerContact();
+const MAX_HREF = managerContact.maxUrl;
 const PHONE_HREF = `tel:${contactDefaults.phone}`;
 
 type FloatingButtonProps = {
@@ -120,10 +119,8 @@ function FloatingButton({
 export function FloatingContacts() {
   const reducedMotion = usePrefersReducedMotion();
   const phone = useHeaderPhone();
-  const messengers = useMessengerChannels();
-  const maxChannel = messengers.find((c) => c.type === 'max');
 
-  const maxHref = maxChannel?.href || MAX_HREF;
+  const maxHref = MAX_HREF;
   const phoneHref = phone?.href || PHONE_HREF;
 
   const [footerLift, setFooterLift] = useState(false);

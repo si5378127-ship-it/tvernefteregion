@@ -1,5 +1,5 @@
 import type { ContactChannel, ContactChannelType } from '@/types';
-import { contactDefaults } from '@/config/contact-defaults';
+import { contactDefaults, type ManagerContact } from '@/config/contact-defaults';
 
 export const CONTACT_INQUIRY_MESSAGE = `Здравствуйте!
 
@@ -151,9 +151,10 @@ export function getContactChannels(): ContactChannel[] {
       enabled: isChannelActive(max, process.env.NEXT_PUBLIC_CONTACT_MAX_ENABLED),
       sortOrder: 4,
       showInHeader: false,
-      showInContactPanel: true,
+      // MAX менеджера показывается в карточке менеджера; канал остаётся для FAB.
+      showInContactPanel: false,
       showInMobileBar: false,
-      showInFooter: true,
+      showInFooter: false,
       showInForms: true,
     },
     {
@@ -229,4 +230,9 @@ export function hasPhoneChannel(
 
 export function isDirectContactChannel(type: ContactChannelType): boolean {
   return DIRECT_CHANNEL_TYPES.includes(type);
+}
+
+/** Контакт менеджера по поставкам — единый источник для UI. */
+export function getManagerContact(): ManagerContact {
+  return contactDefaults.manager;
 }

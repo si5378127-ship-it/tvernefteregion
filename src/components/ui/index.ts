@@ -16,6 +16,7 @@ export { BottomSheet } from './BottomSheet';
 export { Accordion } from './Accordion';
 export { Breadcrumbs } from './Breadcrumbs';
 export { ContactChannelLink } from './ContactChannelLink';
+export { ManagerContactCard } from './ManagerContactCard';
 export { ContactIcon, hasContactIcon } from './ContactIcon';
 export { ProductCard } from './ProductCard';
 export { IndustryCard } from './IndustryCard';
