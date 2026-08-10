@@ -12,7 +12,7 @@ import {
 } from '@/components/ui';
 import { FooterActions } from './FooterActions';
 
-export async function Footer() {
+export async function Footer({ hideCtaBand = false }: { hideCtaBand?: boolean } = {}) {
   const products = await contentProvider.getProducts();
   const phone = getHeaderPhone();
   const channels = getFooterChannels();
@@ -30,6 +30,7 @@ export async function Footer() {
 
   return (
     <footer className="bg-deep-navy text-white">
+      {!hideCtaBand && (
       <div className="bg-petrol relative">
         <div
           className="absolute inset-x-0 top-0 h-[3px] bg-brand-green"
@@ -47,6 +48,7 @@ export async function Footer() {
           </div>
         </Container>
       </div>
+      )}
 
       <Container>
         <div className="py-12 md:py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">

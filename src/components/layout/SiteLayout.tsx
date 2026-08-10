@@ -7,7 +7,14 @@ import { MobileBar } from './MobileBar';
 import { ContactSheet } from './ContactSheet';
 import { FloatingContacts } from './FloatingContacts';
 
-export function SiteLayout({ children }: { children: React.ReactNode }) {
+export function SiteLayout({
+  children,
+  hideFooterCtaBand = false,
+}: {
+  children: React.ReactNode;
+  /** Скрыть промо-CTA Footer только на отдельных посадочных */
+  hideFooterCtaBand?: boolean;
+}) {
   // Читаем каналы на сервере из env — клиент получает готовый список
   const channels = getContactChannels();
 
@@ -16,7 +23,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       <ContactSheetProvider>
         <Header />
         <main className="mobile-bar-offset">{children}</main>
-        <Footer />
+        <Footer hideCtaBand={hideFooterCtaBand} />
         <MobileBar />
         <FloatingContacts />
         <ContactSheet />

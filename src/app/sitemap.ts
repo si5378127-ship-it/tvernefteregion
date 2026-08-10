@@ -10,6 +10,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${siteConfig.url}/dizelnoe-toplivo-optom`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: `${siteConfig.url}/kontakty`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
