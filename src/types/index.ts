@@ -71,6 +71,31 @@ export interface SupplyCase {
   product: string;
   description: string;
   date?: string;
+  /** Опциональное фото кейса; без него карточка остаётся текстовой. */
+  image?: {
+    src: string;
+    alt: string;
+  };
+}
+
+/** Изображение объекта реальной поставки (для будущих фото). */
+export interface RealDeliveryImage {
+  src: string;
+  alt: string;
+}
+
+/** Карточка реальной поставки на объект. */
+export interface RealDelivery {
+  id: string;
+  slug: string;
+  title: string;
+  location: string;
+  region: string;
+  description: string;
+  images: RealDeliveryImage[];
+  date?: string | null;
+  tags?: string[];
+  featured?: boolean;
 }
 
 export interface FAQItem {

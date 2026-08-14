@@ -1,6 +1,6 @@
 import type { SupplyCase, Testimonial, NewsItem } from '@/types';
 
-/** Последние поставки — placeholder до подключения CMS */
+/** Реальные поставки — текстовые заготовки до замены на фотокейсы. */
 export const supplyCases: SupplyCase[] = [
   {
     id: 'case-1',

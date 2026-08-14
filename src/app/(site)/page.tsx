@@ -9,6 +9,7 @@ import { DeliverySection } from '@/components/sections/DeliverySection';
 import { TrustSection } from '@/components/sections/TrustSection';
 import { DocumentsSection } from '@/components/sections/DocumentsSection';
 import { GeographySection } from '@/components/sections/GeographySection';
+import { RealDeliveriesSection } from '@/components/sections/RealDeliveriesSection';
 import { SuppliesSection } from '@/components/sections/SuppliesSection';
 import { NewsSection } from '@/components/sections/NewsSection';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
@@ -35,6 +36,7 @@ export default function HomePage() {
       <TrustSection />
       <DocumentsSection />
       <GeographySection />
+      <RealDeliveriesSection />
       <SuppliesSection />
       <NewsSection />
       <TestimonialsSection />

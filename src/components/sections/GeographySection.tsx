@@ -11,16 +11,28 @@ export async function GeographySection() {
       <Container>
         <SectionHeading
           title="География поставок"
-          subtitle="Работаем по четырём областям Центральной России"
+          subtitle="Работаем по пяти областям Центральной России"
         />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/*
+          Адаптив для 5 карточек:
+          mobile 1 | tablet 2+2+1 (центр) | desktop 3+2 (центр)
+        */}
+        <div className="flex flex-wrap justify-center gap-5">
           {regions.map((region) => (
-            <Card key={region.id} padding="md" hover>
+            <Card
+              key={region.id}
+              padding="md"
+              hover
+              className="w-full sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]"
+            >
               <div className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-brand-green flex-shrink-0 mt-0.5" aria-hidden="true" />
+                <MapPin
+                  className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-green"
+                  aria-hidden="true"
+                />
                 <div>
-                  <h3 className="text-base font-semibold text-deep-navy mb-1">{region.name}</h3>
-                  <p className="text-sm text-secondary-text leading-relaxed">{region.description}</p>
+                  <h3 className="mb-1 text-base font-semibold text-deep-navy">{region.name}</h3>
+                  <p className="text-sm leading-relaxed text-secondary-text">{region.description}</p>
                 </div>
               </div>
             </Card>

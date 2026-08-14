@@ -8,6 +8,12 @@ export const regions: Region[] = [
     description: 'Поставки нефтепродуктов по всей территории Тверской области.',
   },
   {
+    id: 'moscow',
+    name: 'Московская область',
+    slug: 'moskovskaya-oblast',
+    description: 'Доставка дизельного топлива предприятиям и на объекты Московской области.',
+  },
+  {
     id: 'novgorod',
     name: 'Новгородская область',
     slug: 'novgorodskaya-oblast',
