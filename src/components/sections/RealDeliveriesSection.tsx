@@ -21,13 +21,19 @@ export function RealDeliveriesSection() {
             return (
               <Card key={item.id} padding="md" hover className="flex h-full flex-col">
                 {cover ? (
-                  <div className="relative mb-4 aspect-[16/10] overflow-hidden rounded-[16px]">
+                  <div className="relative mb-4 aspect-[3/2] w-full overflow-hidden rounded-[16px] bg-warm-light">
                     <Image
                       src={cover.src}
                       alt={cover.alt}
                       fill
                       className="object-cover"
+                      style={
+                        cover.objectPosition
+                          ? { objectPosition: cover.objectPosition }
+                          : undefined
+                      }
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      priority={false}
                     />
                   </div>
                 ) : null}

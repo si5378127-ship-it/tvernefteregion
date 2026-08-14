@@ -4,18 +4,19 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { motion, useAnimationControls } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { contactDefaults } from '@/config/contact-defaults';
-import { getManagerContact } from '@/config/contacts';
+import { getCompanyMaxChannel, getManagerContact } from '@/config/contacts';
 import { usePrefersReducedMotion } from '@/lib/motion';
 import {
   COOKIE_BANNER_VISIBILITY_EVENT,
   hasCookieConsent,
 } from '@/lib/cookie-consent';
 import { ContactIcon } from '@/components/ui/ContactIcon';
-import { useHeaderPhone } from './ContactChannelsContext';
 
 const managerContact = getManagerContact();
-const MAX_HREF = managerContact.maxUrl;
-const PHONE_HREF = `tel:${contactDefaults.phone}`;
+/** Белая кнопка «онлайн-чат» — MAX менеджера, без изменений. */
+const CHAT_MAX_HREF = managerContact.maxUrl;
+/** Синяя кнопка быстрой связи — основной MAX компании. */
+const COMPANY_MAX_HREF = getCompanyMaxChannel()?.href || contactDefaults.max;
 
 type FloatingButtonProps = {
   href: string;
@@ -113,20 +114,15 @@ function FloatingButton({
 }
 
 /**
- * Плавающие кнопки быстрых контактов: MAX + Позвонить.
- * Фиксированы в правом нижнем углу на всех страницах.
+ * Плавающие кнопки: белый чат (MAX менеджера) + синяя кнопка (основной MAX компании).
  */
 export function FloatingContacts() {
   const reducedMotion = usePrefersReducedMotion();
-  const phone = useHeaderPhone();
-
-  const maxHref = MAX_HREF;
-  const phoneHref = phone?.href || PHONE_HREF;
 
   const [footerLift, setFooterLift] = useState(false);
   const [cookieBannerOpen, setCookieBannerOpen] = useState(false);
-  const [pulseMax, setPulseMax] = useState(0);
-  const [pulsePhone, setPulsePhone] = useState(0);
+  const [pulseChat, setPulseChat] = useState(0);
+  const [pulseCompanyMax, setPulseCompanyMax] = useState(0);
 
   useEffect(() => {
     setCookieBannerOpen(!hasCookieConsent());
@@ -160,18 +156,18 @@ export function FloatingContacts() {
 
     let cancelled = false;
     let timeoutId: ReturnType<typeof setTimeout>;
-    let nextIsMax = true;
+    let nextIsChat = true;
 
     const schedule = () => {
       const delay = 9000 + Math.random() * 3000;
       timeoutId = setTimeout(() => {
         if (cancelled) return;
-        if (nextIsMax) {
-          setPulseMax((n) => n + 1);
+        if (nextIsChat) {
+          setPulseChat((n) => n + 1);
         } else {
-          setPulsePhone((n) => n + 1);
+          setPulseCompanyMax((n) => n + 1);
         }
-        nextIsMax = !nextIsMax;
+        nextIsChat = !nextIsChat;
         schedule();
       }, delay);
     };
@@ -199,22 +195,23 @@ export function FloatingContacts() {
       aria-label="Быстрая связь"
     >
       <FloatingButton
-        href={maxHref}
+        href={CHAT_MAX_HREF}
         tooltip="Написать в MAX"
-        ariaLabel="Написать в MAX"
+        ariaLabel="Написать менеджеру в MAX"
         external
         bgClass="bg-white hover:bg-white"
         icon={<ContactIcon type="max" alt="" />}
-        animateSignal={pulseMax}
+        animateSignal={pulseChat}
         reducedMotion={reducedMotion}
       />
       <FloatingButton
-        href={phoneHref}
-        tooltip="Позвонить"
-        ariaLabel="Позвонить по телефону +7 904 008-50-12"
+        href={COMPANY_MAX_HREF}
+        tooltip="Написать в MAX"
+        ariaLabel="Написать в MAX компании"
+        external
         bgClass="bg-[#17375E] hover:bg-[#12304f]"
-        icon={<ContactIcon type="phone" size={38} alt="Позвонить" />}
-        animateSignal={pulsePhone}
+        icon={<ContactIcon type="max" size={38} alt="" />}
+        animateSignal={pulseCompanyMax}
         reducedMotion={reducedMotion}
       />
     </div>

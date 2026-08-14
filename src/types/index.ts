@@ -78,10 +78,12 @@ export interface SupplyCase {
   };
 }
 
-/** Изображение объекта реальной поставки (для будущих фото). */
+/** Изображение объекта реальной поставки. */
 export interface RealDeliveryImage {
   src: string;
   alt: string;
+  /** CSS object-position для аккуратного кропа превью. */
+  objectPosition?: string;
 }
 
 /** Карточка реальной поставки на объект. */

@@ -147,14 +147,13 @@ export function getContactChannels(): ContactChannel[] {
       label: 'MAX',
       value: max,
       href: buildMaxHref(max),
-      description: 'Написать в MAX.',
+      description: 'Написать в MAX',
       enabled: isChannelActive(max, process.env.NEXT_PUBLIC_CONTACT_MAX_ENABLED),
       sortOrder: 4,
       showInHeader: false,
-      // MAX менеджера показывается в карточке менеджера; канал остаётся для FAB.
-      showInContactPanel: false,
+      showInContactPanel: true,
       showInMobileBar: false,
-      showInFooter: false,
+      showInFooter: true,
       showInForms: true,
     },
     {
@@ -235,4 +234,11 @@ export function isDirectContactChannel(type: ContactChannelType): boolean {
 /** Контакт менеджера по поставкам — единый источник для UI. */
 export function getManagerContact(): ManagerContact {
   return contactDefaults.manager;
+}
+
+/** Основной MAX компании (не путать с MAX менеджера). */
+export function getCompanyMaxChannel(
+  channels: ContactChannel[] = getContactChannels(),
+): ContactChannel | undefined {
+  return channels.find((c) => c.type === 'max');
 }
