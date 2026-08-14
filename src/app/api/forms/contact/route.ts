@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { contactFormSchema } from '@/validation/forms';
 import { processFormSubmission } from '@/services/forms/process-submission';
 
+export const runtime = 'nodejs';
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -23,8 +25,9 @@ export async function POST(request: Request) {
       data: parsed.data,
     });
 
-    return NextResponse.json(result, { status: result.success ? 200 : 400 });
-  } catch {
+    return NextResponse.json(result, { status: result.success ? 200 : 502 });
+  } catch (error) {
+    console.error('[api/forms/contact]', error);
     return NextResponse.json(
       { success: false, message: 'Внутренняя ошибка сервера' },
       { status: 500 },

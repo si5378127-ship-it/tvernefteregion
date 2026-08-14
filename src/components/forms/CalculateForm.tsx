@@ -1,14 +1,13 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { calculateFormSchema, type CalculateFormData } from '@/validation/forms';
 import { Button, Input, Select } from '@/components/ui';
 import { FormLegalConsent, FormLegalNotice } from '@/components/legal';
 import { useConsentGate } from './useConsentGate';
-
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+import { useFormFeedback } from './useFormFeedback';
 
 const SUBMIT_LABEL = 'Получить расчёт';
 
@@ -17,8 +16,6 @@ interface CalculateFormProps {
 }
 
 export function CalculateForm({ productOptions }: CalculateFormProps) {
-  const [status, setStatus] = useState<FormStatus>('idle');
-  const [message, setMessage] = useState('');
   const lastSubmitRef = useRef(0);
 
   const {
@@ -29,11 +26,14 @@ export function CalculateForm({ productOptions }: CalculateFormProps) {
     formState: { errors },
   } = useForm<CalculateFormData>({
     resolver: zodResolver(calculateFormSchema),
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
     defaultValues: {
       personalDataConsent: false,
     },
   });
 
+  const { status, message, beginSubmit, setSuccess, setError } = useFormFeedback(watch);
   const consentGiven = Boolean(watch('personalDataConsent'));
   const { consentError, onDisabledSubmitClick } = useConsentGate(
     consentGiven,
@@ -43,31 +43,32 @@ export function CalculateForm({ productOptions }: CalculateFormProps) {
   const onSubmit = async (data: CalculateFormData) => {
     const now = Date.now();
     if (now - lastSubmitRef.current < 5000) {
-      setStatus('error');
-      setMessage('Подождите несколько секунд перед повторной отправкой');
+      setError('Подождите несколько секунд перед повторной отправкой');
       return;
     }
     lastSubmitRef.current = now;
 
-    setStatus('loading');
+    beginSubmit();
     try {
       const res = await fetch('/api/forms/calculate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      const result = await res.json();
-      if (result.success) {
-        setStatus('success');
-        setMessage(result.message);
+      const result = (await res.json().catch(() => null)) as {
+        success?: boolean;
+        message?: string;
+      } | null;
+      if (res.ok && result?.success) {
         reset();
+        setSuccess(result.message || 'Заявка принята. Мы свяжемся с вами в ближайшее время.');
       } else {
-        setStatus('error');
-        setMessage(result.message || 'Ошибка отправки');
+        console.error('[CalculateForm] submit failed', { status: res.status, result });
+        setError(result?.message || 'Ошибка отправки');
       }
-    } catch {
-      setStatus('error');
-      setMessage('Не удалось отправить заявку. Попробуйте позже.');
+    } catch (error) {
+      console.error('[CalculateForm] submit error', error);
+      setError('Не удалось отправить заявку. Попробуйте позже.');
     }
   };
 
@@ -106,7 +107,7 @@ export function CalculateForm({ productOptions }: CalculateFormProps) {
         required
         {...register('locality')}
       />
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <Input
           label="Имя"
           placeholder="Ваше имя"
@@ -124,10 +125,7 @@ export function CalculateForm({ productOptions }: CalculateFormProps) {
         />
       </div>
 
-      <FormLegalConsent
-        {...register('personalDataConsent')}
-        error={consentError}
-      />
+      <FormLegalConsent {...register('personalDataConsent')} error={consentError} />
 
       <div onClick={onDisabledSubmitClick}>
         <Button
@@ -136,7 +134,7 @@ export function CalculateForm({ productOptions }: CalculateFormProps) {
           fullWidth
           size="lg"
           variant="green"
-          disabled={!consentGiven}
+          disabled={!consentGiven || status === 'loading'}
         >
           {SUBMIT_LABEL}
         </Button>
@@ -146,7 +144,7 @@ export function CalculateForm({ productOptions }: CalculateFormProps) {
 
       <div aria-live="polite" aria-atomic="true" className="text-center">
         {status === 'success' && (
-          <p className="text-sm text-brand-green font-medium">{message}</p>
+          <p className="text-sm font-medium text-brand-green">{message}</p>
         )}
         {status === 'error' && (
           <p className="text-sm text-red-600" role="alert">

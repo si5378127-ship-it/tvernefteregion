@@ -1,11 +1,14 @@
 import { z } from 'zod';
-
-const phoneRegex = /^(\+7|8)?[\s-]?\(?[0-9]{3}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
+import { isValidRussianMobile, normalizeRussianPhone } from '@/lib/phone';
 
 const phoneField = z
   .string()
-  .min(10, 'Введите номер телефона')
-  .regex(phoneRegex, 'Некорректный формат телефона');
+  .trim()
+  .min(1, 'Введите номер телефона')
+  .refine((value) => isValidRussianMobile(value), {
+    message: 'Некорректный формат телефона',
+  })
+  .transform((value) => normalizeRussianPhone(value));
 
 const nameField = z
   .string()

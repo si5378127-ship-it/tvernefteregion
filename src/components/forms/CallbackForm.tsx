@@ -1,20 +1,17 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { callbackFormSchema, type CallbackFormData } from '@/validation/forms';
 import { Button, Input } from '@/components/ui';
 import { FormLegalConsent, FormLegalNotice } from '@/components/legal';
 import { useConsentGate } from './useConsentGate';
-
-type FormStatus = 'idle' | 'loading' | 'success' | 'error';
+import { useFormFeedback } from './useFormFeedback';
 
 const SUBMIT_LABEL = 'Заказать звонок';
 
 export function CallbackForm() {
-  const [status, setStatus] = useState<FormStatus>('idle');
-  const [message, setMessage] = useState('');
   const lastSubmitRef = useRef(0);
 
   const {
@@ -25,11 +22,14 @@ export function CallbackForm() {
     formState: { errors },
   } = useForm<CallbackFormData>({
     resolver: zodResolver(callbackFormSchema),
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
     defaultValues: {
       personalDataConsent: false,
     },
   });
 
+  const { status, message, beginSubmit, setSuccess, setError } = useFormFeedback(watch);
   const consentGiven = Boolean(watch('personalDataConsent'));
   const { consentError, onDisabledSubmitClick } = useConsentGate(
     consentGiven,
@@ -39,31 +39,32 @@ export function CallbackForm() {
   const onSubmit = async (data: CallbackFormData) => {
     const now = Date.now();
     if (now - lastSubmitRef.current < 5000) {
-      setStatus('error');
-      setMessage('Подождите несколько секунд перед повторной отправкой');
+      setError('Подождите несколько секунд перед повторной отправкой');
       return;
     }
     lastSubmitRef.current = now;
 
-    setStatus('loading');
+    beginSubmit();
     try {
       const res = await fetch('/api/forms/callback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      const result = await res.json();
-      if (result.success) {
-        setStatus('success');
-        setMessage(result.message);
+      const result = (await res.json().catch(() => null)) as {
+        success?: boolean;
+        message?: string;
+      } | null;
+      if (res.ok && result?.success) {
         reset();
+        setSuccess(result.message || 'Заявка принята. Мы свяжемся с вами в ближайшее время.');
       } else {
-        setStatus('error');
-        setMessage(result.message || 'Ошибка отправки');
+        console.error('[CallbackForm] submit failed', { status: res.status, result });
+        setError(result?.message || 'Ошибка отправки');
       }
-    } catch {
-      setStatus('error');
-      setMessage('Не удалось отправить заявку. Попробуйте позже.');
+    } catch (error) {
+      console.error('[CallbackForm] submit error', error);
+      setError('Не удалось отправить заявку. Попробуйте позже.');
     }
   };
 
@@ -94,17 +95,14 @@ export function CallbackForm() {
         {...register('phone')}
       />
 
-      <FormLegalConsent
-        {...register('personalDataConsent')}
-        error={consentError}
-      />
+      <FormLegalConsent {...register('personalDataConsent')} error={consentError} />
 
       <div onClick={onDisabledSubmitClick}>
         <Button
           type="submit"
           loading={status === 'loading'}
           fullWidth
-          disabled={!consentGiven}
+          disabled={!consentGiven || status === 'loading'}
         >
           {SUBMIT_LABEL}
         </Button>
@@ -114,7 +112,7 @@ export function CallbackForm() {
 
       <div aria-live="polite" aria-atomic="true">
         {status === 'success' && (
-          <p className="text-sm text-brand-green font-medium">{message}</p>
+          <p className="text-sm font-medium text-brand-green">{message}</p>
         )}
         {status === 'error' && (
           <p className="text-sm text-red-600" role="alert">
