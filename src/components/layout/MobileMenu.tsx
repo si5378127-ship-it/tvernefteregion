@@ -40,14 +40,25 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           <div className="flex flex-col h-full pt-16 pb-8 px-5 overflow-y-auto">
             <nav className="flex flex-col gap-1" aria-label="Мобильная навигация">
               {mainNavigation.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  onClick={onClose}
-                  className="py-3 px-3 text-base font-medium text-graphite hover:text-brand-green hover:bg-brand-green-light rounded-xl transition-colors duration-200 min-h-[44px] flex items-center"
-                >
-                  {item.label}
-                </Link>
+                <div key={item.id} className="flex flex-col">
+                  <Link
+                    href={item.href}
+                    onClick={onClose}
+                    className="py-3 px-3 text-base font-medium text-graphite hover:text-brand-green hover:bg-brand-green-light rounded-xl transition-colors duration-200 min-h-[44px] flex items-center"
+                  >
+                    {item.label}
+                  </Link>
+                  {item.children?.map((child) => (
+                    <Link
+                      key={child.id}
+                      href={child.href}
+                      onClick={onClose}
+                      className="py-2.5 pl-6 pr-3 text-sm font-medium text-secondary-text hover:text-brand-green hover:bg-brand-green-light rounded-xl transition-colors duration-200 min-h-[44px] flex items-center"
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
               ))}
             </nav>
 

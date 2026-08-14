@@ -174,17 +174,55 @@ export function Header() {
                 {mainNavigation.map((item) => {
                   const hash = item.href.includes('#') ? item.href.split('#')[1] : '';
                   const isActive = hash !== '' && activeHash === hash;
+                  const linkClass = cn(
+                    'text-[14px] font-medium whitespace-nowrap transition-colors duration-200',
+                    isActive
+                      ? 'text-brand-green'
+                      : 'text-primary-text hover:text-petrol',
+                  );
+
+                  if (item.children?.length) {
+                    return (
+                      <div key={item.id} className="relative group">
+                        <Link
+                          href={item.href}
+                          onClick={() => hash && setActiveHash(hash)}
+                          className={linkClass}
+                          aria-haspopup="true"
+                        >
+                          {item.label}
+                        </Link>
+                        <div
+                          className={cn(
+                            'invisible absolute left-0 top-full z-50 min-w-[14rem] pt-2 opacity-0',
+                            'transition-[opacity,visibility] duration-150',
+                            'group-hover:visible group-hover:opacity-100',
+                            'group-focus-within:visible group-focus-within:opacity-100',
+                          )}
+                        >
+                          <ul className="rounded-xl border border-border bg-white py-1.5 shadow-md">
+                            {item.children.map((child) => (
+                              <li key={child.id}>
+                                <Link
+                                  href={child.href}
+                                  className="block px-3.5 py-2.5 text-[13px] font-medium text-primary-text transition-colors duration-200 hover:bg-warm-gray-50 hover:text-petrol"
+                                >
+                                  {child.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    );
+                  }
+
                   return (
                     <Link
                       key={item.id}
                       href={item.href}
                       onClick={() => hash && setActiveHash(hash)}
-                      className={cn(
-                        'text-[14px] font-medium whitespace-nowrap transition-colors duration-200',
-                        isActive
-                          ? 'text-brand-green'
-                          : 'text-primary-text hover:text-petrol',
-                      )}
+                      className={linkClass}
                     >
                       {item.label}
                     </Link>

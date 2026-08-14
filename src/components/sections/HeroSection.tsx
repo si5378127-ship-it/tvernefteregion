@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FileText, Truck, MapPin, Receipt } from 'lucide-react';
 import { Container, Button } from '@/components/ui';
@@ -41,8 +42,14 @@ export function HeroSection() {
               variants={fadeInUp}
               className="text-lg md:text-xl text-secondary-text leading-relaxed max-w-xl"
             >
-              Организуем поставки дизельного топлива по Тверской, Новгородской, Ярославской и
-              Смоленской областям.
+              Организуем поставки{' '}
+              <Link
+                href="/dizelnoe-toplivo-optom"
+                className="font-medium text-brand-blue underline-offset-2 hover:underline"
+              >
+                дизельного топлива
+              </Link>{' '}
+              по Тверской, Новгородской, Ярославской и Смоленской областям.
             </motion.p>
             <motion.p variants={fadeInUp} className="text-base text-secondary-text/90 italic">
               Когда техника и оборудование должны работать, поставка топлива не может подвести.

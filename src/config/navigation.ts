@@ -1,7 +1,18 @@
 import type { NavItem } from '@/types';
 
 export const mainNavigation: NavItem[] = [
-  { id: 'products', label: 'Нефтепродукты', href: '/#products' },
+  {
+    id: 'products',
+    label: 'Нефтепродукты',
+    href: '/#products',
+    children: [
+      {
+        id: 'diesel-wholesale',
+        label: 'Дизельное топливо оптом',
+        href: '/dizelnoe-toplivo-optom',
+      },
+    ],
+  },
   { id: 'delivery', label: 'Доставка', href: '/#delivery' },
   { id: 'industries', label: 'Для предприятий', href: '/#industries' },
   { id: 'geography', label: 'География', href: '/#geography' },

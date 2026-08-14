@@ -72,6 +72,14 @@ export async function Footer({ hideCtaBand = false }: { hideCtaBand?: boolean } 
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/dizelnoe-toplivo-optom"
+                  className="text-sm text-[#B9C5CF] hover:text-brand-green transition-colors duration-200"
+                >
+                  Дизельное топливо оптом
+                </Link>
+              </li>
             </ul>
           </div>
 

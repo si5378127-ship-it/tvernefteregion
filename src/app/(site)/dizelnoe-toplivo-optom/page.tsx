@@ -7,11 +7,15 @@ import { siteConfig } from '@/config/site';
 import { getBreadcrumbJsonLd, getFaqPageJsonLd } from '@/lib/seo';
 
 const pageTitle = 'Дизельное топливо оптом с доставкой';
+/** Полный document title (absolute — без повторного применения titleTemplate). */
+const documentTitle = 'Дизельное топливо оптом с доставкой — ТверьНефтеРегион';
 const pageDescription =
   'Оптовая поставка дизельного топлива с доставкой предприятиям и на объекты. Летнее, межсезонное и зимнее ДТ. Доставка по Тверской и другим рабочим направлениям компании. Расчёт стоимости поставки.';
 
 export const metadata: Metadata = {
-  title: pageTitle,
+  title: {
+    absolute: documentTitle,
+  },
   description: pageDescription,
   alternates: {
     canonical: '/dizelnoe-toplivo-optom',

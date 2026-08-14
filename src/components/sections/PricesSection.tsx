@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Container, Section, SectionHeading, PriceCard } from '@/components/ui';
 import { contentProvider } from '@/services';
 import { priceDisclaimer } from '@/config/site';
@@ -19,7 +20,15 @@ export async function PricesSection() {
           ))}
         </div>
         <p className="mt-6 text-sm text-secondary-text text-center max-w-2xl mx-auto">
-          {priceDisclaimer}
+          {priceDisclaimer}{' '}
+          Условия{' '}
+          <Link
+            href="/dizelnoe-toplivo-optom"
+            className="font-medium text-brand-blue underline-offset-2 hover:underline"
+          >
+            оптовой поставки с доставкой
+          </Link>{' '}
+          — на отдельной странице.
         </p>
       </Container>
     </Section>
