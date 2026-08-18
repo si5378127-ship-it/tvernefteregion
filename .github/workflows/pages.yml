@@ -1,13 +1,29 @@
-# GitHub Pages — static export из /out
-# Production deployment включается отдельно (Settings → Pages + permissions).
-# Пока workflow готов, но не активируйте production без явного разрешения.
+# Тестовый деплой static /out на GitHub Pages.
+# Запуск только вручную (workflow_dispatch). Автодеплой с push отключён.
+#
+# Рекомендуемая ветка для теста: migration/static-no-vercel
+# Custom domain / DNS / Vercel / Cloudflare не трогаем этим workflow.
 
-name: Deploy GitHub Pages
+name: Deploy GitHub Pages (test)
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches: [main]
+    inputs:
+      pages_base_path:
+        description: 'basePath для project site (для теста оставьте /tvernefteregion; для apex-домена — пусто)'
+        required: false
+        default: '/tvernefteregion'
+        type: string
+      site_url:
+        description: 'NEXT_PUBLIC_SITE_URL для сборки (тестовый github.io URL)'
+        required: false
+        default: 'https://si5378127-ship-it.github.io/tvernefteregion'
+        type: string
+      remove_cname:
+        description: 'Удалить CNAME из артефакта (нужно, пока custom domain не подключаем)'
+        required: true
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -15,16 +31,18 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-test
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: npm
@@ -38,8 +56,19 @@ jobs:
       - name: Build static export
         run: npm run build
         env:
-          NEXT_PUBLIC_SITE_URL: https://tvernefteregion.ru
           CI: true
+          NEXT_PUBLIC_SITE_URL: ${{ inputs.site_url }}
+          PAGES_BASE_PATH: ${{ inputs.pages_base_path }}
+
+      - name: Remove CNAME for test deploy
+        if: ${{ inputs.remove_cname }}
+        run: |
+          if [ -f out/CNAME ]; then
+            rm -f out/CNAME
+            echo "Removed out/CNAME (custom domain not used for this test)."
+          else
+            echo "No out/CNAME present."
+          fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
