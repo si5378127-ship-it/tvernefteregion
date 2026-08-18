@@ -1,0 +1,78 @@
+# Production GitHub Pages deploy for custom domain https://tvernefteregion.ru
+#
+# Builds migration/static-no-vercel with:
+#   PAGES_BASE_PATH= (empty)  → assets /brand, /icons, /images
+#   NEXT_PUBLIC_SITE_URL=https://tvernefteregion.ru
+# Keeps out/CNAME (tvernefteregion.ru) for GitHub Pages custom domain.
+#
+# Manual only — no push trigger. Do not enable until DNS cutover is approved.
+# This file lives on migration branch until intentionally added to main
+# (GitHub Actions UI requires workflow on default branch to show Run button).
+
+name: Deploy GitHub Pages (production)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-production
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout migration/static-no-vercel
+        uses: actions/checkout@v4
+        with:
+          ref: migration/static-no-vercel
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build static export (apex, no basePath)
+        run: npm run build
+        env:
+          CI: true
+          NEXT_PUBLIC_SITE_URL: https://tvernefteregion.ru
+          PAGES_BASE_PATH: ''
+
+      - name: Keep CNAME for custom domain
+        run: |
+          if [ -f out/CNAME ]; then
+            echo "CNAME present:"
+            cat out/CNAME
+          else
+            echo "tvernefteregion.ru" > out/CNAME
+            echo "Wrote out/CNAME"
+          fi
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
