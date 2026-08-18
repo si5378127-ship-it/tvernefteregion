@@ -1,4 +1,5 @@
 import type { SiteConfig, SEOConfig } from '@/types';
+import { assetPath } from '@/lib/asset-path';
 
 const seoTitle = 'Дизельное топливо с доставкой | ТверьНефтеРегион';
 const seoDescription =
@@ -62,7 +63,7 @@ export const seoConfig: SEOConfig = {
   /** Полный title для og/twitter (без повторного применения template) */
   ogTitle: seoTitle,
   /** Специальная OG-карточка для предпросмотра в мессенджерах */
-  ogImage: '/images/og/default.png',
+  ogImage: assetPath('/images/og/default.png'),
   keywords: [
     'нефтепродукты',
     'дизельное топливо',

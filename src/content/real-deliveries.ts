@@ -1,4 +1,5 @@
 import type { RealDelivery } from '@/types';
+import { assetPath } from '@/lib/asset-path';
 
 /**
  * Реальные поставки на объекты.
@@ -14,7 +15,7 @@ export const realDeliveries: RealDelivery[] = [
     description: 'Доставка дизельного топлива непосредственно на объект заказчика.',
     images: [
       {
-        src: '/images/delivery/kuvshinovsky-delivery.png',
+        src: assetPath('/images/delivery/kuvshinovsky-delivery.png'),
         alt: 'Поставка дизельного топлива на объект заказчика в Кувшиновском районе Тверской области',
         // Кабина бензовоза слева, ёмкость с площадкой справа — держим оба в кадре.
         objectPosition: '42% 40%',
@@ -34,7 +35,7 @@ export const realDeliveries: RealDelivery[] = [
       'Доставка дизельного топлива специализированным транспортом непосредственно на объект заказчика.',
     images: [
       {
-        src: '/images/delivery/krasnokholmsky-delivery.png',
+        src: assetPath('/images/delivery/krasnokholmsky-delivery.png'),
         alt: 'Поставка дизельного топлива на объект заказчика в Краснохолмском районе Тверской области',
         // Бензовоз слева и зона слива справа — лёгкий сдвиг к центру кадра.
         objectPosition: '45% 48%',
@@ -54,7 +55,7 @@ export const realDeliveries: RealDelivery[] = [
       'На объекте заказчика нет собственной ёмкости для приёма топлива. Поставка организована с переливом топлива из бензовоза в бензовоз.',
     images: [
       {
-        src: '/images/delivery/shakhovskaya-delivery.jpg',
+        src: assetPath('/images/delivery/shakhovskaya-delivery.jpg'),
         alt: 'Перелив дизельного топлива из бензовоза в бензовоз на объекте в Шаховской, Московская область',
         // Два бензовоза и шланг по центру квадратного кадра.
         objectPosition: 'center 46%',

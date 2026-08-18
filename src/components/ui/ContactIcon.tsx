@@ -1,14 +1,15 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { assetPath } from '@/lib/asset-path';
 
 export type ContactIconType = 'phone' | 'email' | 'telegram' | 'whatsapp' | 'max';
 
 const ICON_SRC: Record<ContactIconType, string> = {
-  phone: '/icons/phone.png',
-  email: '/icons/email.png',
-  telegram: '/icons/telegram.png',
-  whatsapp: '/icons/whatsapp.png',
-  max: '/icons/max.png',
+  phone: assetPath('/icons/phone.png'),
+  email: assetPath('/icons/email.png'),
+  telegram: assetPath('/icons/telegram.png'),
+  whatsapp: assetPath('/icons/whatsapp.png'),
+  max: assetPath('/icons/max.png'),
 };
 
 const ICON_ALT: Record<ContactIconType, string> = {
