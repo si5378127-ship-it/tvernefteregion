@@ -4,21 +4,42 @@ const seoTitle = 'Дизельное топливо с доставкой | Тв
 const seoDescription =
   'Поставка дизельного топлива для предприятий с доставкой по Тверской, Новгородской, Ярославской и Смоленской областям. Расчёт стоимости и заказ топлива.';
 
-/** Абсолютный URL сайта для metadataBase / Open Graph (без trailing slash). */
+/** Канонический production-домен (без www). */
+export const PRODUCTION_SITE_URL = 'https://tvernefteregion.ru';
+
+function stripTrailingSlash(url: string): string {
+  return url.replace(/\/$/, '');
+}
+
+/** Приводит www и прочие зеркала к каноническому apex-домену. */
+function normalizeCanonicalUrl(url: string): string {
+  try {
+    const { hostname } = new URL(url);
+    if (hostname === 'tvernefteregion.ru' || hostname === 'www.tvernefteregion.ru') {
+      return PRODUCTION_SITE_URL;
+    }
+  } catch {
+    return PRODUCTION_SITE_URL;
+  }
+  return stripTrailingSlash(url);
+}
+
+/**
+ * Абсолютный URL сайта для metadataBase / Open Graph (без trailing slash).
+ * Production: всегда apex. Localhost — только для локальной разработки.
+ */
 function resolveSiteUrl(): string {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, '');
-  const isLocalhost = !configured || /localhost|127\.0\.0\.1/i.test(configured);
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 
-  // На Vercel не отдаём localhost в og:image — мессенджеры его не откроют.
-  if (isLocalhost) {
-    const vercelProd = process.env.VERCEL_PROJECT_PRODUCTION_URL?.replace(/^https?:\/\//, '');
-    if (vercelProd) return `https://${vercelProd}`;
-
-    const vercelUrl = process.env.VERCEL_URL?.replace(/^https?:\/\//, '');
-    if (vercelUrl) return `https://${vercelUrl}`;
+  if (!configured || /localhost|127\.0\.0\.1/i.test(configured)) {
+    // CI / production static build без явного localhost → canonical apex.
+    if (process.env.GITHUB_ACTIONS || process.env.CI) {
+      return PRODUCTION_SITE_URL;
+    }
+    return configured ? stripTrailingSlash(configured) : 'http://localhost:3000';
   }
 
-  return configured || 'http://localhost:3000';
+  return normalizeCanonicalUrl(configured);
 }
 
 export const siteConfig: SiteConfig = {

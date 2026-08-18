@@ -1,21 +1,25 @@
 'use client';
 
-import { Button } from '@/components/ui';
+import { ButtonLink } from '@/components/ui';
 import { useContactSheet } from './ContactSheetContext';
+import { getCompanyMaxHref } from '@/config/cta';
 
 export function FooterActions() {
-  const { openContactSheet, scrollToSection } = useContactSheet();
+  const { openContactSheet } = useContactSheet();
+  const maxHref = getCompanyMaxHref();
 
   return (
     <div className="flex flex-col sm:flex-row gap-3 sm:justify-center">
-      <Button
+      <ButtonLink
+        href={maxHref}
+        target="_blank"
+        rel="noopener noreferrer"
         variant="green"
         size="lg"
         className="rounded-[14px] sm:min-w-[220px]"
-        onClick={() => scrollToSection('calculate')}
       >
-        Рассчитать стоимость
-      </Button>
+        Узнать стоимость
+      </ButtonLink>
       <button
         type="button"
         onClick={openContactSheet}

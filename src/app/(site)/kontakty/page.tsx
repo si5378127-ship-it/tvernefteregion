@@ -7,7 +7,7 @@ import { Container } from '@/components/ui';
 export const metadata: Metadata = {
   title: 'Контакты',
   description:
-    'Свяжитесь с ТверьНефтеРегион удобным способом: телефон, мессенджеры или форма обратной связи.',
+    'Свяжитесь с ТверьНефтеРегион удобным способом: телефон, MAX или мессенджеры.',
   alternates: {
     canonical: '/kontakty',
   },

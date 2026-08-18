@@ -1,4 +1,5 @@
 export { Button } from './Button';
+export { ButtonLink } from './ButtonLink';
 export { IconButton } from './IconButton';
 export { BrandLogo } from './BrandLogo';
 export { Container } from './Container';

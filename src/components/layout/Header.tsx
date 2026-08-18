@@ -7,18 +7,20 @@ import { cn } from '@/lib/utils';
 import { mainNavigation } from '@/config/navigation';
 import { companyAddress } from '@/config/site';
 import { BrandLogo } from '@/components/layout/BrandLogo';
-import { Button, IconButton, Container, ContactIcon } from '@/components/ui';
+import { ButtonLink, IconButton, Container, ContactIcon } from '@/components/ui';
 import { useContactSheet } from './ContactSheetContext';
 import { useHeaderPhone, useHeaderEmail } from './ContactChannelsContext';
+import { getCompanyMaxHref } from '@/config/cta';
 import { MobileMenu } from './MobileMenu';
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeHash, setActiveHash] = useState('');
-  const { openContactSheet, scrollToSection } = useContactSheet();
+  const { openContactSheet } = useContactSheet();
   const phone = useHeaderPhone();
   const email = useHeaderEmail();
+  const maxHref = getCompanyMaxHref();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 100);
@@ -264,13 +266,15 @@ export function Header() {
                 </IconButton>
               </div>
 
-              <Button
+              <ButtonLink
+                href={maxHref}
+                target="_blank"
+                rel="noopener noreferrer"
                 variant="green"
-                onClick={() => scrollToSection('calculate')}
                 className="rounded-[14px] h-11 min-h-11 px-5 text-[14px] font-semibold flex-shrink-0 ml-auto"
               >
-                Рассчитать стоимость
-              </Button>
+                Узнать стоимость
+              </ButtonLink>
             </div>
           </Container>
         </div>

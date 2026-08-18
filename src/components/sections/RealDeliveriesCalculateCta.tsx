@@ -1,20 +1,21 @@
 'use client';
 
-import { Button } from '@/components/ui';
-import { useContactSheet } from '@/components/layout/ContactSheetContext';
+import { ButtonLink } from '@/components/ui';
+import { getCompanyMaxHref } from '@/config/cta';
 
-/** CTA секции реальных поставок → существующая форма расчёта. */
 export function RealDeliveriesCalculateCta() {
-  const { scrollToSection } = useContactSheet();
+  const maxHref = getCompanyMaxHref();
 
   return (
-    <Button
+    <ButtonLink
+      href={maxHref}
+      target="_blank"
+      rel="noopener noreferrer"
       variant="green"
       size="lg"
       className="rounded-[14px]"
-      onClick={() => scrollToSection('calculate')}
     >
-      Рассчитать стоимость поставки
-    </Button>
+      Узнать стоимость
+    </ButtonLink>
   );
 }

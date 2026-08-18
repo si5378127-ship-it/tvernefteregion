@@ -5,10 +5,12 @@ import { cn } from '@/lib/utils';
 import { ContactIcon } from '@/components/ui/ContactIcon';
 import { useContactSheet } from './ContactSheetContext';
 import { useMobileBarPhone } from './ContactChannelsContext';
+import { getCompanyMaxHref } from '@/config/cta';
 
 export function MobileBar() {
   const phone = useMobileBarPhone();
-  const { openContactSheet, scrollToSection } = useContactSheet();
+  const { openContactSheet } = useContactSheet();
+  const maxHref = getCompanyMaxHref();
 
   const actionClass =
     'flex flex-col items-center justify-center gap-1 text-xs font-medium text-warm-gray-700 hover:text-brand-blue hover:bg-warm-gray-50 transition-colors min-h-[44px]';
@@ -39,14 +41,16 @@ export function MobileBar() {
           Связаться
         </button>
 
-        <button
-          type="button"
-          onClick={() => scrollToSection('calculate')}
+        <a
+          href={maxHref}
+          target="_blank"
+          rel="noopener noreferrer"
           className={actionClass}
+          aria-label="Узнать стоимость в MAX"
         >
           <Calculator className="h-5 w-5" aria-hidden="true" />
-          Рассчитать
-        </button>
+          Узнать цену
+        </a>
       </div>
     </div>
   );

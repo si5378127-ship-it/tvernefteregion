@@ -4,10 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FileText, Truck, MapPin, Receipt } from 'lucide-react';
-import { Container, Button } from '@/components/ui';
+import { Container, ButtonLink } from '@/components/ui';
 import { useContactSheet } from '@/components/layout/ContactSheetContext';
 import { useHeaderPhone } from '@/components/layout/ContactChannelsContext';
 import { brandConfig } from '@/config/brand';
+import { getCompanyMaxHref } from '@/config/cta';
 import { fadeInUp, staggerContainer, usePrefersReducedMotion } from '@/lib/motion';
 
 const benefits = [
@@ -18,9 +19,10 @@ const benefits = [
 ];
 
 export function HeroSection() {
-  const { openContactSheet, scrollToSection } = useContactSheet();
+  const { openContactSheet } = useContactSheet();
   const phone = useHeaderPhone();
   const reducedMotion = usePrefersReducedMotion();
+  const maxHref = getCompanyMaxHref();
 
   return (
     <section className="relative hero-gradient overflow-hidden">
@@ -57,14 +59,16 @@ export function HeroSection() {
 
             <motion.div variants={fadeInUp} className="flex flex-col items-start gap-3 pt-1">
               <div className="flex flex-wrap gap-3">
-                <Button
+                <ButtonLink
+                  href={maxHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   variant="green"
                   size="lg"
                   className="rounded-[14px]"
-                  onClick={() => scrollToSection('calculate')}
                 >
-                  Рассчитать стоимость
-                </Button>
+                  Узнать стоимость
+                </ButtonLink>
                 {phone && (
                   <a
                     href={phone.href}
@@ -102,7 +106,11 @@ export function HeroSection() {
           <motion.div
             initial={reducedMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: reducedMotion ? 0 : 0.55, delay: reducedMotion ? 0 : 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{
+              duration: reducedMotion ? 0 : 0.55,
+              delay: reducedMotion ? 0 : 0.1,
+              ease: [0.25, 0.1, 0.25, 1],
+            }}
             className="relative rounded-[28px] overflow-hidden shadow-lg ring-1 ring-deep-navy/10"
           >
             <div className="relative aspect-[4/3]">

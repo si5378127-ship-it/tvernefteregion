@@ -3,13 +3,13 @@
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { mainNavigation } from '@/config/navigation';
-import { Button, ContactChannelLink, ContactIcon } from '@/components/ui';
-import { useContactSheet } from './ContactSheetContext';
+import { ButtonLink, ContactChannelLink, ContactIcon } from '@/components/ui';
 import {
   useHeaderPhone,
   useHeaderEmail,
   useMessengerChannels,
 } from './ContactChannelsContext';
+import { getCompanyMaxHref } from '@/config/cta';
 import { usePrefersReducedMotion } from '@/lib/motion';
 
 interface MobileMenuProps {
@@ -18,11 +18,11 @@ interface MobileMenuProps {
 }
 
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
-  const { scrollToSection } = useContactSheet();
   const phone = useHeaderPhone();
   const email = useHeaderEmail();
   const messengers = useMessengerChannels();
   const reducedMotion = usePrefersReducedMotion();
+  const maxHref = getCompanyMaxHref();
 
   return (
     <AnimatePresence>
@@ -99,17 +99,17 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             </div>
 
             <div className="mt-auto flex flex-col gap-3 pt-6 border-t border-border">
-              <Button
+              <ButtonLink
+                href={maxHref}
+                target="_blank"
+                rel="noopener noreferrer"
                 variant="green"
                 fullWidth
                 className="rounded-[13px]"
-                onClick={() => {
-                  onClose();
-                  scrollToSection('calculate');
-                }}
+                onClick={onClose}
               >
-                Рассчитать стоимость
-              </Button>
+                Узнать стоимость
+              </ButtonLink>
             </div>
           </div>
         </motion.div>

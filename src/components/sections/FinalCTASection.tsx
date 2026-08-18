@@ -1,12 +1,14 @@
 'use client';
 
-import { Container, Section, Button } from '@/components/ui';
+import { Container, Section, Button, ButtonLink } from '@/components/ui';
 import { useContactSheet } from '@/components/layout/ContactSheetContext';
 import { getHeaderPhone } from '@/config/contacts';
+import { getCompanyMaxHref } from '@/config/cta';
 
 export function FinalCTASection() {
-  const { openContactSheet, scrollToSection } = useContactSheet();
+  const { openContactSheet } = useContactSheet();
   const phone = getHeaderPhone();
+  const maxHref = getCompanyMaxHref();
 
   return (
     <Section background="dark">
@@ -16,13 +18,24 @@ export function FinalCTASection() {
             Нужна поставка нефтепродуктов?
           </h2>
           <p className="text-warm-gray-400 mb-8 leading-relaxed">
-            Оставьте заявку на расчёт или свяжитесь с нами — обсудим условия и согласуем поставку.
+            Напишите в MAX или позвоните — обсудим условия и согласуем поставку.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Button size="lg" onClick={() => scrollToSection('calculate')}>
-              Рассчитать стоимость
-            </Button>
-            <Button variant="outline" size="lg" onClick={openContactSheet} className="border-warm-gray-600 text-white hover:bg-graphite-light">
+            <ButtonLink
+              href={maxHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              size="lg"
+              variant="green"
+            >
+              Узнать стоимость
+            </ButtonLink>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={openContactSheet}
+              className="border-warm-gray-600 text-white hover:bg-graphite-light"
+            >
               Связаться
             </Button>
             {phone && (

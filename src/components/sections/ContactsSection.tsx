@@ -1,18 +1,26 @@
-import { Container, Section, SectionHeading, ContactChannelLink, ManagerContactCard } from '@/components/ui';
+import {
+  Container,
+  Section,
+  SectionHeading,
+  ContactChannelLink,
+  ManagerContactCard,
+  ButtonLink,
+} from '@/components/ui';
 import { getDirectContactPanelChannels, getManagerContact } from '@/config/contacts';
-import { ContactForm } from '@/components/forms/ContactForm';
-import { CallbackForm } from '@/components/forms/CallbackForm';
+import { getCompanyMaxHref, getCompanyPhoneHref } from '@/config/cta';
 
 export function ContactsSection() {
   const directChannels = getDirectContactPanelChannels();
   const manager = getManagerContact();
+  const maxHref = getCompanyMaxHref();
+  const phoneHref = getCompanyPhoneHref();
 
   return (
     <Section id="contacts" background="warm">
       <Container>
         <SectionHeading
           title="Свяжитесь удобным способом"
-          subtitle="Можно позвонить или написать напрямую — заполнять форму необязательно"
+          subtitle="Можно позвонить или написать напрямую в MAX"
           align="center"
         />
 
@@ -25,17 +33,29 @@ export function ContactsSection() {
           </div>
         )}
 
-        <h3 className="mb-8 text-center text-xl font-semibold text-graphite">
-          Нужен расчет или обратный звонок?
-        </h3>
-        <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-2">
-          <div id="contact-form">
-            <h4 className="mb-4 text-lg font-semibold text-graphite">Оставить сообщение</h4>
-            <ContactForm />
-          </div>
-          <div id="callback-form">
-            <h4 className="mb-4 text-lg font-semibold text-graphite">Заказать звонок</h4>
-            <CallbackForm />
+        <div
+          id="contact-form"
+          className="mx-auto max-w-2xl rounded-[24px] border border-border bg-white p-6 md:p-8 text-center shadow-sm"
+        >
+          <h3 className="mb-3 text-xl font-semibold text-graphite">Есть вопрос по поставке?</h3>
+          <p className="mb-6 text-base text-secondary-text leading-relaxed">
+            Свяжитесь с нами удобным способом — ответим и уточним условия поставки.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <ButtonLink
+              href={maxHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="green"
+              size="lg"
+            >
+              Написать в MAX
+            </ButtonLink>
+            {phoneHref && (
+              <ButtonLink href={phoneHref} variant="outline" size="lg">
+                Позвонить
+              </ButtonLink>
+            )}
           </div>
         </div>
       </Container>

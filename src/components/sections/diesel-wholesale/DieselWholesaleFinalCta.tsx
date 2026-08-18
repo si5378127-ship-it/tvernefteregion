@@ -1,12 +1,12 @@
 'use client';
 
-import { Container, Section, Button } from '@/components/ui';
-import { useContactSheet } from '@/components/layout/ContactSheetContext';
+import { Container, Section, ButtonLink } from '@/components/ui';
 import { useHeaderPhone } from '@/components/layout/ContactChannelsContext';
+import { getCompanyMaxHref } from '@/config/cta';
 
 export function DieselWholesaleFinalCta() {
-  const { scrollToSection } = useContactSheet();
   const phone = useHeaderPhone();
+  const maxHref = getCompanyMaxHref();
 
   return (
     <Section background="navy" compact>
@@ -16,17 +16,19 @@ export function DieselWholesaleFinalCta() {
             Нужна оптовая поставка дизельного топлива?
           </h2>
           <p className="mb-6 leading-relaxed text-white/70">
-            Оставьте заявку на расчёт или позвоните — уточним вид топлива, объём и адрес доставки.
+            Напишите в MAX или позвоните — уточним вид топлива, объём и адрес доставки.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Button
+            <ButtonLink
+              href={maxHref}
+              target="_blank"
+              rel="noopener noreferrer"
               variant="green"
               size="lg"
               className="rounded-[14px]"
-              onClick={() => scrollToSection('calculate')}
             >
-              Рассчитать стоимость поставки
-            </Button>
+              Узнать стоимость
+            </ButtonLink>
             {phone && (
               <a
                 href={phone.href}
