@@ -150,14 +150,6 @@ export interface SEOConfig {
   keywords: string[];
 }
 
-export interface FormSubmissionResult {
-  success: boolean;
-  message: string;
-  errors?: Record<string, string[]>;
-}
-
-export type FormType = 'calculate' | 'contact' | 'callback';
-
 export interface ContentProvider {
   getProducts(): Promise<Product[]>;
   getProductBySlug(slug: string): Promise<Product | null>;

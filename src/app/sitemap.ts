@@ -1,37 +1,54 @@
 import type { MetadataRoute } from 'next';
 import { siteConfig } from '@/config/site';
+import { getIndexedPromotions } from '@/content/promotions';
+
+/** Static export: sitemap генерируется на билде. */
+export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  const base = siteConfig.url;
+
+  const pages: MetadataRoute.Sitemap = [
     {
-      url: siteConfig.url,
+      url: base,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: `${siteConfig.url}/dizelnoe-toplivo-optom`,
+      url: `${base}/dizelnoe-toplivo-optom`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${siteConfig.url}/kontakty`,
+      url: `${base}/kontakty`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${siteConfig.url}/privacy`,
+      url: `${base}/privacy`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
-      url: `${siteConfig.url}/consent`,
+      url: `${base}/consent`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.3,
     },
   ];
+
+  for (const promo of getIndexedPromotions()) {
+    pages.push({
+      url: `${base}/akcii/${promo.slug}`,
+      lastModified: promo.publishedAt ? new Date(promo.publishedAt) : new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    });
+  }
+
+  return pages;
 }

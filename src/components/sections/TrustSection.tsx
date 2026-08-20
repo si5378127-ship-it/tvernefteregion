@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Container, Section, SectionHeading } from '@/components/ui';
+import { assetPath } from '@/lib/asset-path';
 
 export function TrustSection() {
   return (
@@ -19,7 +20,10 @@ export function TrustSection() {
                 'Реальные поставки с документами на продукцию',
               ].map((text) => (
                 <li key={text} className="flex items-start gap-2.5 text-sm text-primary-text">
-                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-green flex-shrink-0" aria-hidden="true" />
+                  <span
+                    className="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-green flex-shrink-0"
+                    aria-hidden="true"
+                  />
                   {text}
                 </li>
               ))}
@@ -28,7 +32,7 @@ export function TrustSection() {
           <div className="rounded-[24px] overflow-hidden shadow-md ring-1 ring-border">
             <div className="relative aspect-[4/3]">
               <Image
-                src="/images/transport/gazelle.jpg"
+                src={assetPath('/images/transport/gazelle.jpg')}
                 alt="Специализированный транспорт для поставки нефтепродуктов"
                 fill
                 className="object-cover"

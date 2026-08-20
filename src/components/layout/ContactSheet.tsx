@@ -1,11 +1,10 @@
 'use client';
 
-import { BottomSheet, ContactChannelLink, ManagerContactCard } from '@/components/ui';
+import { BottomSheet, ContactChannelLink, ManagerContactCard, ButtonLink } from '@/components/ui';
 import { getManagerContact } from '@/config/contacts';
+import { getCompanyMaxHref } from '@/config/cta';
 import { useContactSheet } from './ContactSheetContext';
 import { useDirectContactPanelChannels, useHeaderPhone } from './ContactChannelsContext';
-import { CompactInquiryForm } from '@/components/forms/CompactInquiryForm';
-import { CompactCallbackForm } from '@/components/forms/CompactCallbackForm';
 
 const CALC_HINTS = [
   'Вид топлива',
@@ -18,8 +17,8 @@ export function ContactSheet() {
   const directChannels = useDirectContactPanelChannels();
   const companyPhone = useHeaderPhone();
   const manager = getManagerContact();
+  const maxHref = getCompanyMaxHref();
 
-  // Компания (телефон первым) + остальные каналы без дубля телефона; менеджер — отдельной карточкой.
   const sheetChannels = [
     ...(companyPhone ? [companyPhone] : []),
     ...directChannels.filter((c) => c.id !== companyPhone?.id),
@@ -69,15 +68,29 @@ export function ContactSheet() {
             ))}
           </ul>
 
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div className="rounded-xl border border-border bg-warm-gray-50 p-4">
-              <h4 className="text-sm font-semibold text-graphite mb-3">Форма</h4>
-              <CompactInquiryForm />
-            </div>
-            <div className="rounded-xl border border-border bg-warm-gray-50 p-4">
-              <h4 className="text-sm font-semibold text-graphite mb-3">Заказать звонок</h4>
-              <CompactCallbackForm />
-            </div>
+          <div className="flex flex-col gap-3">
+            <ButtonLink
+              href={maxHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="green"
+              size="lg"
+              fullWidth
+              onClick={closeContactSheet}
+            >
+              Узнать стоимость в MAX
+            </ButtonLink>
+            {companyPhone && (
+              <ButtonLink
+                href={companyPhone.href}
+                variant="outline"
+                size="lg"
+                fullWidth
+                onClick={closeContactSheet}
+              >
+                Позвонить
+              </ButtonLink>
+            )}
           </div>
         </div>
       </div>

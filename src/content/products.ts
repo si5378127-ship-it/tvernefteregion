@@ -1,8 +1,9 @@
 import type { Product } from '@/types';
+import { assetPath } from '@/lib/asset-path';
 
 /**
  * Единый источник данных о продукции и ценах.
- * UI и формы читают цены только отсюда (через ContentProvider).
+ * UI читает цены только отсюда (через ContentProvider).
  * Позже будет заменён на Payload CMS без изменения компонентов.
  */
 export const products: Product[] = [
@@ -19,7 +20,7 @@ export const products: Product[] = [
     priceUnit: '₽/л',
     availability: 'in_stock',
     updatedAt: undefined,
-    image: '/images/products/diesel-summer.webp',
+    image: assetPath('/images/products/diesel-summer.webp'),
     active: true,
   },
   {
@@ -35,7 +36,7 @@ export const products: Product[] = [
     priceUnit: '₽/л',
     availability: 'in_stock',
     updatedAt: undefined,
-    image: '/images/products/diesel-interseason.webp',
+    image: assetPath('/images/products/diesel-interseason.webp'),
     active: true,
   },
   {
@@ -51,7 +52,7 @@ export const products: Product[] = [
     priceUnit: '₽/л',
     availability: 'in_stock',
     updatedAt: undefined,
-    image: '/images/products/diesel-winter.webp',
+    image: assetPath('/images/products/diesel-winter.webp'),
     active: true,
   },
   {

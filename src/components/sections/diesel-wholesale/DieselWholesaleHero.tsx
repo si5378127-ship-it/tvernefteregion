@@ -1,14 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { Container, Button } from '@/components/ui';
-import { useContactSheet } from '@/components/layout/ContactSheetContext';
+import { Container, ButtonLink } from '@/components/ui';
 import { useHeaderPhone } from '@/components/layout/ContactChannelsContext';
 import { brandConfig } from '@/config/brand';
+import { getCompanyMaxHref } from '@/config/cta';
 
 export function DieselWholesaleHero() {
-  const { scrollToSection } = useContactSheet();
   const phone = useHeaderPhone();
+  const maxHref = getCompanyMaxHref();
 
   return (
     <section className="relative overflow-hidden hero-gradient">
@@ -26,14 +26,16 @@ export function DieselWholesaleHero() {
 
             <div className="flex flex-col items-start gap-3 pt-1">
               <div className="flex flex-wrap gap-3">
-                <Button
+                <ButtonLink
+                  href={maxHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   variant="green"
                   size="lg"
                   className="rounded-[14px]"
-                  onClick={() => scrollToSection('calculate')}
                 >
-                  Рассчитать стоимость поставки
-                </Button>
+                  Узнать стоимость
+                </ButtonLink>
                 {phone && (
                   <a
                     href={phone.href}

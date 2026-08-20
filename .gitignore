@@ -28,7 +28,6 @@ Desktop.ini
 # debug
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
 .pnpm-debug.log*
 
 # env files (keep only example)
@@ -50,3 +49,7 @@ next-env.d.ts
 
 # OS / OneDrive noise
 *Zone.Identifier
+
+# Vercel (не используется)
+.vercel
+vercel.json

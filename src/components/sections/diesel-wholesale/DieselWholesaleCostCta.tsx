@@ -1,19 +1,23 @@
 'use client';
 
-import { Button } from '@/components/ui';
-import { useContactSheet } from '@/components/layout/ContactSheetContext';
+import { ButtonLink } from '@/components/ui';
+import { getCompanyMaxHref } from '@/config/cta';
 
 export function DieselWholesaleCostCta() {
-  const { scrollToSection } = useContactSheet();
+  const maxHref = getCompanyMaxHref();
 
   return (
-    <Button
-      variant="green"
-      size="lg"
-      className="w-full rounded-[14px] sm:w-auto"
-      onClick={() => scrollToSection('calculate')}
-    >
-      Рассчитать стоимость
-    </Button>
+    <div className="mt-6 text-center">
+      <ButtonLink
+        href={maxHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        variant="green"
+        size="lg"
+        className="rounded-[14px]"
+      >
+        Узнать стоимость
+      </ButtonLink>
+    </div>
   );
 }

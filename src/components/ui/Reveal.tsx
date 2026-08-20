@@ -9,6 +9,10 @@ interface RevealProps {
   children: ReactNode;
   className?: string;
   delay?: number;
+  /** Длительность появления, сек. По умолчанию 0.5. */
+  duration?: number;
+  /** Смещение по Y при появлении, px. По умолчанию 16. */
+  offsetY?: number;
 }
 
 /**
@@ -16,7 +20,13 @@ interface RevealProps {
  * Контент всегда видим до гидрации и при reduced-motion —
  * не оставляем opacity: 0 «навсегда».
  */
-export function Reveal({ children, className, delay = 0 }: RevealProps) {
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+  duration = 0.5,
+  offsetY = 16,
+}: RevealProps) {
   const reduced = usePrefersReducedMotion();
   const [ready, setReady] = useState(false);
 
@@ -32,10 +42,10 @@ export function Reveal({ children, className, delay = 0 }: RevealProps) {
   return (
     <motion.div
       className={cn(className)}
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: offsetY }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.4, delay, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration, delay, ease: [0.25, 0.1, 0.25, 1] }}
     >
       {children}
     </motion.div>
