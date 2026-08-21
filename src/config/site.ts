@@ -80,4 +80,6 @@ export const seoConfig: SEOConfig = {
 export const priceDisclaimer =
   'Итоговая стоимость зависит от вида продукта, объёма, адреса доставки, маршрута и актуальной оптовой цены.';
 
-export const yandexMetrikaId = process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID || '';
+/** Яндекс.Метрика — production counter; env может переопределить. */
+export const yandexMetrikaId =
+  process.env.NEXT_PUBLIC_YANDEX_METRIKA_ID?.trim() || '111809246';
