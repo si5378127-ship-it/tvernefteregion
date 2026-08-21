@@ -1,13 +1,11 @@
 # Production GitHub Pages deploy for custom domain https://tvernefteregion.ru
 #
-# Builds migration/static-no-vercel with:
+# Builds main with:
 #   PAGES_BASE_PATH= (empty)  → assets /brand, /icons, /images
 #   NEXT_PUBLIC_SITE_URL=https://tvernefteregion.ru
 # Keeps out/CNAME (tvernefteregion.ru) for GitHub Pages custom domain.
 #
-# Manual only — no push trigger. Do not enable until DNS cutover is approved.
-# This file lives on migration branch until intentionally added to main
-# (GitHub Actions UI requires workflow on default branch to show Run button).
+# Manual only — no push trigger.
 
 name: Deploy GitHub Pages (production)
 
@@ -27,10 +25,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout migration/static-no-vercel
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
-          ref: migration/static-no-vercel
+          ref: main
 
       - name: Setup Node
         uses: actions/setup-node@v4
