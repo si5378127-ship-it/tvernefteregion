@@ -7,7 +7,6 @@ import {
   hasCookieConsent,
 } from '@/lib/cookie-consent';
 
-const YM_SCRIPT_SRC = 'https://mc.yandex.ru/metrika/tag.js';
 const YM_INIT_ATTR = 'data-ym-init';
 
 declare global {
@@ -18,9 +17,10 @@ declare global {
 }
 
 /**
- * Надёжная загрузка Метрики после согласия.
- * next/script + inline children часто не исполняется при отложенном mount
- * (consent gate) в App Router / static export — поэтому инжектим tag.js сами.
+ * Официальный bootstrap Метрики.
+ * При ssr:true скрипт должен быть tag.js?id=<counter> — иначе библиотека
+ * грузится, но экземпляр счётчика/hit часто не создаётся.
+ * @see https://yandex.ru/support/metrica/ru/code/install-several-counters.html
  */
 function initYandexMetrika(counterId: string): void {
   if (typeof window === 'undefined') return;
@@ -28,15 +28,18 @@ function initYandexMetrika(counterId: string): void {
 
   window.dataLayer = window.dataLayer || [];
 
-  (function (m: Window, e: Document, t: string, r: string, i: 'ym') {
-    const target = m as Window & Record<'ym', Window['ym']>;
-    target[i] =
-      target[i] ||
-      function (this: unknown) {
+  const scriptSrc = `https://mc.yandex.ru/metrika/tag.js?id=${counterId}`;
+
+  // Точный порядок официального сниппета: stub → l → inject tag.js → ym(id,"init",…)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (function (m: any, e: Document, t: string, r: string, i: string) {
+    m[i] =
+      m[i] ||
+      function () {
         // eslint-disable-next-line prefer-rest-params
-        (target[i]!.a = target[i]!.a || []).push(arguments);
+        (m[i].a = m[i].a || []).push(arguments);
       };
-    target[i]!.l = Date.now();
+    m[i].l = 1 * new Date().getTime();
     for (let j = 0; j < e.scripts.length; j += 1) {
       if (e.scripts[j]?.src === r) return;
     }
@@ -45,10 +48,10 @@ function initYandexMetrika(counterId: string): void {
     k.async = true;
     k.src = r;
     a?.parentNode?.insertBefore(k, a);
-  })(window, document, 'script', YM_SCRIPT_SRC, 'ym');
+  })(window, document, 'script', scriptSrc, 'ym');
 
   const id = /^\d+$/.test(counterId) ? Number(counterId) : counterId;
-  window.ym?.(id, 'init', {
+  window.ym!(id, 'init', {
     ssr: true,
     webvisor: true,
     clickmap: true,
