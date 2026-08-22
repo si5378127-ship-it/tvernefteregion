@@ -6,15 +6,9 @@ import {
   COOKIE_CONSENT_EVENT,
   hasCookieConsent,
 } from '@/lib/cookie-consent';
+import { bindYmGoalClicks } from '@/lib/yandex-metrika';
 
 const YM_INIT_ATTR = 'data-ym-init';
-
-declare global {
-  interface Window {
-    ym?: ((...args: unknown[]) => void) & { a?: IArguments[]; l?: number };
-    dataLayer?: unknown[];
-  }
-}
 
 /**
  * Официальный bootstrap Метрики.
@@ -82,6 +76,7 @@ export function YandexMetrika() {
   useEffect(() => {
     if (!allowed || !yandexMetrikaId) return;
     initYandexMetrika(yandexMetrikaId);
+    return bindYmGoalClicks();
   }, [allowed]);
 
   if (!yandexMetrikaId || !allowed) return null;
