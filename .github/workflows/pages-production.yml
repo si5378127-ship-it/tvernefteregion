@@ -5,12 +5,14 @@
 #   NEXT_PUBLIC_SITE_URL=https://tvernefteregion.ru
 # Keeps out/CNAME (tvernefteregion.ru) for GitHub Pages custom domain.
 #
-# Manual only — no push trigger.
+# Production deploys from main: push or workflow_dispatch.
 
 name: Deploy GitHub Pages (production)
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 permissions:
   contents: read
