@@ -11,6 +11,7 @@ import { ButtonLink, IconButton, Container, ContactIcon } from '@/components/ui'
 import { useContactSheet } from './ContactSheetContext';
 import { useHeaderPhone, useHeaderEmail } from './ContactChannelsContext';
 import { getCompanyMaxHref } from '@/config/cta';
+import { YM_GOALS, ymGoalAttrs } from '@/lib/yandex-metrika';
 import { MobileMenu } from './MobileMenu';
 
 export function Header() {
@@ -272,6 +273,7 @@ export function Header() {
                 rel="noopener noreferrer"
                 variant="green"
                 className="rounded-[14px] h-11 min-h-11 px-5 text-[14px] font-semibold flex-shrink-0 ml-auto"
+                {...ymGoalAttrs(YM_GOALS.priceRequest)}
               >
                 Узнать стоимость
               </ButtonLink>

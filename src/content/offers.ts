@@ -11,6 +11,8 @@ export interface OfferItem {
   description: string;
   ctaLabel: string;
   benefit: OfferBenefit;
+  /** Параметр цели loyalty_offer_click в Яндекс Метрике */
+  goalOffer: 'referral' | 'payment_delay' | 'competitor_offer';
 }
 
 export const offersSectionCopy = {
@@ -34,6 +36,7 @@ export const offerItems: OfferItem[] = [
     description:
       'Если по вашей рекомендации к нам обращается новая компания, предоставим скидку 50 коп./л на следующий заказ.',
     ctaLabel: 'Узнать условия',
+    goalOffer: 'referral',
     benefit: {
       value: '−50 коп./л',
       caption: 'на следующую поставку',
@@ -46,6 +49,7 @@ export const offerItems: OfferItem[] = [
     description:
       'Для постоянных клиентов можем предоставить отсрочку оплаты нефтепродуктов сроком до 45 дней. Условия согласовываются индивидуально.',
     ctaLabel: 'Обсудить условия',
+    goalOffer: 'payment_delay',
     benefit: {
       value: 'до 45 дней',
       tone: 'metric',
@@ -56,6 +60,7 @@ export const offerItems: OfferItem[] = [
     title: 'Уже работаете с другим поставщиком?',
     description: 'Есть предложение другого поставщика? Пришлите его нам — сравним условия поставки.',
     ctaLabel: 'Отправить счёт',
+    goalOffer: 'competitor_offer',
     benefit: {
       value: 'Сравним предложение',
       tone: 'label',

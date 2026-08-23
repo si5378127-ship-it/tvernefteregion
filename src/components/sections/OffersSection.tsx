@@ -5,6 +5,7 @@ import { Container, Section, SectionHeading, Button, ButtonLink, Reveal } from '
 import { useContactSheet } from '@/components/layout/ContactSheetContext';
 import { getCompanyMaxHref } from '@/config/cta';
 import { offerItems, offersSectionCopy, type OfferBenefit } from '@/content/offers';
+import { YM_GOALS, ymGoalAttrs } from '@/lib/yandex-metrika';
 import { cn } from '@/lib/utils';
 
 function OfferBenefitValue({ benefit }: { benefit: OfferBenefit }) {
@@ -47,6 +48,7 @@ export function OffersSection() {
                 href={maxHref}
                 target="_blank"
                 rel="noopener noreferrer"
+                {...ymGoalAttrs(YM_GOALS.loyaltyOffer, { offer: item.goalOffer })}
                 className={cn(
                   'group grid gap-x-3 gap-y-2.5 border-b border-border py-7',
                   'grid-cols-1',
@@ -108,6 +110,7 @@ export function OffersSection() {
                 variant="green"
                 size="lg"
                 className="w-full sm:w-auto sm:min-w-[220px]"
+                {...ymGoalAttrs(YM_GOALS.loyaltyOffer, { offer: 'competitor_offer' })}
               >
                 {highlight.primaryCta}
               </ButtonLink>

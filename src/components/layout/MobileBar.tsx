@@ -6,6 +6,7 @@ import { ContactIcon } from '@/components/ui/ContactIcon';
 import { useContactSheet } from './ContactSheetContext';
 import { useMobileBarPhone } from './ContactChannelsContext';
 import { getCompanyMaxHref } from '@/config/cta';
+import { YM_GOALS, ymGoalAttrs } from '@/lib/yandex-metrika';
 
 export function MobileBar() {
   const phone = useMobileBarPhone();
@@ -47,6 +48,7 @@ export function MobileBar() {
           rel="noopener noreferrer"
           className={actionClass}
           aria-label="Узнать стоимость в MAX"
+          {...ymGoalAttrs(YM_GOALS.priceRequest)}
         >
           <Calculator className="h-5 w-5" aria-hidden="true" />
           Узнать цену

@@ -3,6 +3,7 @@
 import { BottomSheet, ContactChannelLink, ManagerContactCard, ButtonLink } from '@/components/ui';
 import { getManagerContact } from '@/config/contacts';
 import { getCompanyMaxHref } from '@/config/cta';
+import { YM_GOALS, ymGoalAttrs } from '@/lib/yandex-metrika';
 import { useContactSheet } from './ContactSheetContext';
 import { useDirectContactPanelChannels, useHeaderPhone } from './ContactChannelsContext';
 
@@ -77,6 +78,7 @@ export function ContactSheet() {
               size="lg"
               fullWidth
               onClick={closeContactSheet}
+              {...ymGoalAttrs(YM_GOALS.priceRequest)}
             >
               Узнать стоимость в MAX
             </ButtonLink>

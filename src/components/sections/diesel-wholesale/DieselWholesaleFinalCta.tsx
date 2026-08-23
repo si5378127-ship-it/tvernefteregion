@@ -3,6 +3,7 @@
 import { Container, Section, ButtonLink } from '@/components/ui';
 import { useHeaderPhone } from '@/components/layout/ContactChannelsContext';
 import { getCompanyMaxHref } from '@/config/cta';
+import { YM_GOALS, ymGoalAttrs } from '@/lib/yandex-metrika';
 
 export function DieselWholesaleFinalCta() {
   const phone = useHeaderPhone();
@@ -26,6 +27,7 @@ export function DieselWholesaleFinalCta() {
               variant="green"
               size="lg"
               className="rounded-[14px]"
+              {...ymGoalAttrs(YM_GOALS.priceRequest)}
             >
               Узнать стоимость
             </ButtonLink>

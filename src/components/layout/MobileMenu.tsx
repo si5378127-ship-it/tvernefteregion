@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { mainNavigation } from '@/config/navigation';
 import { ButtonLink, ContactChannelLink, ContactIcon } from '@/components/ui';
+import { YM_GOALS, ymGoalAttrs } from '@/lib/yandex-metrika';
 import {
   useHeaderPhone,
   useHeaderEmail,
@@ -107,6 +108,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                 fullWidth
                 className="rounded-[13px]"
                 onClick={onClose}
+                {...ymGoalAttrs(YM_GOALS.priceRequest)}
               >
                 Узнать стоимость
               </ButtonLink>

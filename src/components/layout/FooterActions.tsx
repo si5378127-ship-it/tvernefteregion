@@ -3,6 +3,7 @@
 import { ButtonLink } from '@/components/ui';
 import { useContactSheet } from './ContactSheetContext';
 import { getCompanyMaxHref } from '@/config/cta';
+import { YM_GOALS, ymGoalAttrs } from '@/lib/yandex-metrika';
 
 export function FooterActions() {
   const { openContactSheet } = useContactSheet();
@@ -17,6 +18,7 @@ export function FooterActions() {
         variant="green"
         size="lg"
         className="rounded-[14px] sm:min-w-[220px]"
+        {...ymGoalAttrs(YM_GOALS.priceRequest)}
       >
         Узнать стоимость
       </ButtonLink>

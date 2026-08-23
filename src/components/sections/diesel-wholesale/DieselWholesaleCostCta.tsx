@@ -2,6 +2,7 @@
 
 import { ButtonLink } from '@/components/ui';
 import { getCompanyMaxHref } from '@/config/cta';
+import { YM_GOALS, ymGoalAttrs } from '@/lib/yandex-metrika';
 
 export function DieselWholesaleCostCta() {
   const maxHref = getCompanyMaxHref();
@@ -15,6 +16,7 @@ export function DieselWholesaleCostCta() {
         variant="green"
         size="lg"
         className="rounded-[14px]"
+        {...ymGoalAttrs(YM_GOALS.priceRequest)}
       >
         Узнать стоимость
       </ButtonLink>

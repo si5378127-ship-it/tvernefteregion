@@ -4,6 +4,7 @@ import { Container, Section, Button, ButtonLink } from '@/components/ui';
 import { useContactSheet } from '@/components/layout/ContactSheetContext';
 import { getHeaderPhone } from '@/config/contacts';
 import { getCompanyMaxHref } from '@/config/cta';
+import { YM_GOALS, ymGoalAttrs } from '@/lib/yandex-metrika';
 
 export function FinalCTASection() {
   const { openContactSheet } = useContactSheet();
@@ -27,6 +28,7 @@ export function FinalCTASection() {
               rel="noopener noreferrer"
               size="lg"
               variant="green"
+              {...ymGoalAttrs(YM_GOALS.priceRequest)}
             >
               Узнать стоимость
             </ButtonLink>

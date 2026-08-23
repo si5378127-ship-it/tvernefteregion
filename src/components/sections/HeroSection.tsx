@@ -9,6 +9,7 @@ import { useContactSheet } from '@/components/layout/ContactSheetContext';
 import { useHeaderPhone } from '@/components/layout/ContactChannelsContext';
 import { brandConfig } from '@/config/brand';
 import { getCompanyMaxHref } from '@/config/cta';
+import { YM_GOALS, ymGoalAttrs } from '@/lib/yandex-metrika';
 import { fadeInUp, staggerContainer, usePrefersReducedMotion } from '@/lib/motion';
 
 const benefits = [
@@ -66,6 +67,7 @@ export function HeroSection() {
                   variant="green"
                   size="lg"
                   className="rounded-[14px]"
+                  {...ymGoalAttrs(YM_GOALS.priceRequest)}
                 >
                   Узнать стоимость
                 </ButtonLink>
