@@ -1,31 +1,35 @@
+import type { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Container, Section, SectionHeading, Card, Badge } from '@/components/ui';
 import { realDeliveries } from '@/content/real-deliveries';
 import { RealDeliveriesCalculateCta } from './RealDeliveriesCalculateCta';
 
-export function RealDeliveriesSection() {
+const defaultSubtitle = (
+  <>
+    Доставляем{' '}
+    <Link
+      href="/dizelnoe-toplivo-optom"
+      className="font-medium text-brand-blue underline-offset-2 hover:underline"
+    >
+      дизельное топливо
+    </Link>{' '}
+    предприятиям и непосредственно на объекты заказчиков. Здесь — несколько примеров реальных
+    поставок по рабочим направлениям компании.
+  </>
+);
+
+export function RealDeliveriesSection({
+  subtitle = defaultSubtitle,
+}: {
+  subtitle?: ReactNode;
+} = {}) {
   if (realDeliveries.length === 0) return null;
 
   return (
     <Section id="real-deliveries" background="white">
       <Container>
-        <SectionHeading
-          title="Реальные поставки на объекты"
-          subtitle={
-            <>
-              Доставляем{' '}
-              <Link
-                href="/dizelnoe-toplivo-optom"
-                className="font-medium text-brand-blue underline-offset-2 hover:underline"
-              >
-                дизельное топливо
-              </Link>{' '}
-              предприятиям и непосредственно на объекты заказчиков. Здесь — несколько примеров
-              реальных поставок по рабочим направлениям компании.
-            </>
-          }
-        />
+        <SectionHeading title="Реальные поставки на объекты" subtitle={subtitle} />
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {realDeliveries.map((item) => {

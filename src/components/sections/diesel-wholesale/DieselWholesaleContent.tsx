@@ -13,6 +13,7 @@ import { contentProvider } from '@/services';
 import { DocumentsSection } from '@/components/sections/DocumentsSection';
 import { GeographySection } from '@/components/sections/GeographySection';
 import { CalculateSection } from '@/components/sections/CalculateSection';
+import { RealDeliveriesSection } from '@/components/sections/RealDeliveriesSection';
 import {
   dieselWholesaleAudienceIds,
   dieselWholesaleDeliverySteps,
@@ -135,6 +136,10 @@ export async function DieselWholesaleContent() {
           </p>
         </Container>
       </Section>
+
+      <RealDeliveriesSection
+        subtitle="Доставляем дизельное топливо предприятиям и непосредственно на объекты заказчиков. Здесь — несколько примеров реальных поставок по рабочим направлениям компании."
+      />
 
       <GeographySection />
       <div className="bg-warm-light pb-2 text-center">
