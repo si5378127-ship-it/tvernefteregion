@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Check } from 'lucide-react';
+import { Check, MapPin } from 'lucide-react';
 import {
   Container,
   Section,
@@ -11,20 +11,30 @@ import {
 } from '@/components/ui';
 import { contentProvider } from '@/services';
 import { DocumentsSection } from '@/components/sections/DocumentsSection';
-import { GeographySection } from '@/components/sections/GeographySection';
 import { CalculateSection } from '@/components/sections/CalculateSection';
 import { RealDeliveriesSection } from '@/components/sections/RealDeliveriesSection';
 import {
   dieselWholesaleAudienceIds,
   dieselWholesaleDeliverySteps,
-  dieselWholesaleFaq,
   dieselWholesaleTrustPoints,
 } from '@/content/diesel-wholesale-landing';
+import {
+  tverRegionCities,
+  tverRegionFaq,
+  tverRegionGeographyDescription,
+  tverRegionHeroDescription,
+  tverRegionRealDeliveries,
+  tverRegionSupplyDescription,
+  tverRegionSupplyDirections,
+  tverRegionSupplyTitle,
+} from '@/content/tver-region-landing';
 import { DieselWholesaleHero } from './DieselWholesaleHero';
 import { DieselWholesaleCostCta } from './DieselWholesaleCostCta';
 import { DieselWholesaleFinalCta } from './DieselWholesaleFinalCta';
 
-export async function DieselWholesaleContent() {
+const linkClass = 'text-brand-blue underline-offset-2 hover:underline';
+
+export async function TverRegionContent() {
   const [products, industries] = await Promise.all([
     contentProvider.getProducts(),
     contentProvider.getIndustries(),
@@ -37,7 +47,35 @@ export async function DieselWholesaleContent() {
 
   return (
     <>
-      <DieselWholesaleHero />
+      <DieselWholesaleHero
+        title={
+          <>
+            Дизельное топливо оптом
+            <br />
+            в Тверской области
+          </>
+        }
+        description={tverRegionHeroDescription}
+      />
+
+      <Section id="tver-supply" background="white">
+        <Container>
+          <SectionHeading title={tverRegionSupplyTitle} subtitle={tverRegionSupplyDescription} />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {tverRegionSupplyDirections.map((direction) => (
+              <Card key={direction} padding="md" hover>
+                <div className="flex items-start gap-3">
+                  <MapPin
+                    className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-green"
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-base font-semibold text-deep-navy">{direction}</h3>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </Container>
+      </Section>
 
       <Section id="fuel-types" background="warm">
         <Container>
@@ -53,8 +91,8 @@ export async function DieselWholesaleContent() {
           <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-relaxed text-secondary-text">
             Актуальную стоимость поставки рассчитает менеджер с учётом вида топлива, объёма и адреса
             доставки. Цены на карточках — ориентир «от»; итоговая стоимость согласуется индивидуально.{' '}
-            <Link href="/#products" className="text-brand-blue underline-offset-2 hover:underline">
-              Смотреть продукцию на главной
+            <Link href="/dizelnoe-toplivo-optom/" className={linkClass}>
+              дизельное топливо оптом
             </Link>
             .
           </p>
@@ -65,7 +103,7 @@ export async function DieselWholesaleContent() {
         <Container>
           <SectionHeading
             title="Кому поставляем"
-            subtitle="Оптовые поставки дизельного топлива для предприятий, организаций и объектов со спецтехникой"
+            subtitle="Оптовые поставки дизельного топлива для предприятий, организаций и объектов со спецтехникой в Тверской области"
           />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {audience.map((industry) => (
@@ -128,9 +166,9 @@ export async function DieselWholesaleContent() {
             ))}
           </div>
           <p className="mt-6 text-center text-sm text-secondary-text">
-            Подробнее о процессе — в разделе{' '}
-            <Link href="/#delivery" className="text-brand-blue underline-offset-2 hover:underline">
-              доставки на главной
+            Подробнее об{' '}
+            <Link href="/#delivery" className={linkClass}>
+              условиях доставки
             </Link>
             .
           </p>
@@ -138,30 +176,64 @@ export async function DieselWholesaleContent() {
       </Section>
 
       <RealDeliveriesSection
-        subtitle="Доставляем дизельное топливо предприятиям и непосредственно на объекты заказчиков. Здесь — несколько примеров реальных поставок по рабочим направлениям компании."
+        title="Реальные поставки по Тверской области"
+        subtitle="Поставляем дизельное топливо непосредственно на объекты заказчиков. Ниже — примеры выполненных поставок в Тверской области."
+        items={tverRegionRealDeliveries}
       />
 
-      <GeographySection
-        regionHrefs={{
-          'tverskaya-oblast': '/dizelnoe-toplivo-optom/tverskaya-oblast/',
-        }}
-      />
-      <div className="bg-warm-light pb-2 text-center">
+      <Section id="tver-geography" background="warm">
         <Container>
-          <p className="mx-auto max-w-3xl pb-10 text-base leading-relaxed text-secondary-text">
-            Организуем поставки дизельного топлива предприятиям и на объекты в Тверской области и по
-            другим рабочим направлениям компании.
+          <SectionHeading
+            title="География поставок в Тверской области"
+            subtitle={tverRegionGeographyDescription}
+          />
+          <div className="flex flex-wrap justify-center gap-5">
+            {tverRegionCities.map((city) => (
+              <Card
+                key={city}
+                padding="md"
+                hover
+                className="w-full sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]"
+              >
+                <div className="flex items-start gap-3">
+                  <MapPin
+                    className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand-green"
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-base font-semibold text-deep-navy">{city}</h3>
+                </div>
+              </Card>
+            ))}
+          </div>
+          <p className="mx-auto mt-8 max-w-3xl text-center text-base leading-relaxed text-secondary-text">
+            Перечень городов показывает географию обслуживания, а не выполненную поставку в каждый
+            населённый пункт. Возможность доставки на конкретный объект уточняется индивидуально.
+          </p>
+          <p className="mx-auto mt-4 max-w-3xl text-center text-base leading-relaxed text-secondary-text">
+            Общие условия оптовых поставок — на странице{' '}
+            <Link href="/dizelnoe-toplivo-optom/" className={linkClass}>
+              дизельное топливо оптом
+            </Link>
+            . О комплекте закрывающих документов — в блоке{' '}
+            <Link href="/#documents" className={linkClass}>
+              документы на продукцию
+            </Link>
+            . Связаться с менеджером можно на странице{' '}
+            <Link href="/kontakty/" className={linkClass}>
+              контакты
+            </Link>
+            .
           </p>
         </Container>
-      </div>
+      </Section>
 
       <DocumentsSection />
       <div className="bg-white pb-2 text-center">
         <Container>
           <p className="mx-auto max-w-3xl pb-10 text-sm leading-relaxed text-secondary-text">
             Обезличенные образцы документов — в блоке{' '}
-            <Link href="/#documents" className="text-brand-blue underline-offset-2 hover:underline">
-              документов на главной
+            <Link href="/#documents" className={linkClass}>
+              документы на продукцию
             </Link>
             . Актуальный паспорт предоставляется на конкретную партию.
           </p>
@@ -191,8 +263,11 @@ export async function DieselWholesaleContent() {
 
       <Section id="faq" background="white">
         <Container size="narrow">
-          <SectionHeading title="Частые вопросы" align="center" />
-          <Accordion items={dieselWholesaleFaq} />
+          <SectionHeading
+            title="Вопросы о поставке дизельного топлива по Тверской области"
+            align="center"
+          />
+          <Accordion items={tverRegionFaq} />
         </Container>
       </Section>
 

@@ -1,8 +1,13 @@
+import Link from 'next/link';
 import { Container, Section, SectionHeading, Card } from '@/components/ui';
 import { contentProvider } from '@/services';
 import { MapPin } from 'lucide-react';
 
-export async function GeographySection() {
+export async function GeographySection({
+  regionHrefs,
+}: {
+  regionHrefs?: Partial<Record<string, string>>;
+} = {}) {
   const regions = await contentProvider.getRegions();
   if (regions.length === 0) return null;
 
@@ -31,7 +36,18 @@ export async function GeographySection() {
                   aria-hidden="true"
                 />
                 <div>
-                  <h3 className="mb-1 text-base font-semibold text-deep-navy">{region.name}</h3>
+                  <h3 className="mb-1 text-base font-semibold text-deep-navy">
+                    {regionHrefs?.[region.slug] ? (
+                      <Link
+                        href={regionHrefs[region.slug]!}
+                        className="text-deep-navy hover:text-brand-blue"
+                      >
+                        {region.name}
+                      </Link>
+                    ) : (
+                      region.name
+                    )}
+                  </h3>
                   <p className="text-sm leading-relaxed text-secondary-text">{region.description}</p>
                 </div>
               </div>

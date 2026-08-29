@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Container, Section, SectionHeading, Card, Badge } from '@/components/ui';
 import { realDeliveries } from '@/content/real-deliveries';
+import type { RealDelivery } from '@/types';
 import { RealDeliveriesCalculateCta } from './RealDeliveriesCalculateCta';
 
 const defaultSubtitle = (
@@ -21,18 +22,22 @@ const defaultSubtitle = (
 
 export function RealDeliveriesSection({
   subtitle = defaultSubtitle,
+  title = 'Реальные поставки на объекты',
+  items = realDeliveries,
 }: {
   subtitle?: ReactNode;
+  title?: string;
+  items?: RealDelivery[];
 } = {}) {
-  if (realDeliveries.length === 0) return null;
+  if (items.length === 0) return null;
 
   return (
     <Section id="real-deliveries" background="white">
       <Container>
-        <SectionHeading title="Реальные поставки на объекты" subtitle={subtitle} />
+        <SectionHeading title={title} subtitle={subtitle} />
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {realDeliveries.map((item) => {
+          {items.map((item) => {
             const cover = item.images[0];
 
             return (

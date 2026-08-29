@@ -22,6 +22,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${base}/dizelnoe-toplivo-optom/tverskaya-oblast`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
       url: `${base}/kontakty`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
