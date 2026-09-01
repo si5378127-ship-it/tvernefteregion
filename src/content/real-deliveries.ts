@@ -65,4 +65,24 @@ export const realDeliveries: RealDelivery[] = [
     tags: [],
     featured: true,
   },
+  {
+    id: 'nelidovsky-district',
+    slug: 'nelidovsky-district',
+    title: 'Поставка дизельного топлива в Нелидовский район',
+    location: 'Нелидовский район',
+    region: 'Тверская область',
+    description:
+      'Доставка дизельного топлива на территорию клиента. Топливо слито из бензовоза в ёмкость заказчика.',
+    images: [
+      {
+        src: assetPath('/images/delivery/nelidovsky-delivery.webp'),
+        alt: 'Поставка дизельного топлива в Нелидовском районе Тверской области',
+        // Квадратный кадр в превью 3:2: бензовоз слева, шланг и ёмкость справа.
+        objectPosition: 'center 45%',
+      },
+    ],
+    date: null,
+    tags: [],
+    featured: true,
+  },
 ];
